@@ -2,6 +2,19 @@
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.0.4.
 
+# Architecture
+
+This project follows an enterprise Angular architecture.
+
+Core
+Shared
+Features
+Layout
+Store
+Assets
+
+Feature-first development.
+
 ## Development server
 
 To start a local development server, run:
