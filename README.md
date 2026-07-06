@@ -2,7 +2,7 @@
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.0.4.
 
-# Architecture
+## Architecture
 
 This project follows an enterprise Angular architecture.
 
@@ -12,7 +12,11 @@ Features
 Layout
 Store
 Assets
-
+Environment
+Angular Material
+NgRx
+Signals
+REST API
 Feature-first development.
 
 ## Development server
