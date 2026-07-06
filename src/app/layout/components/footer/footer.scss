@@ -1,0 +1,6 @@
+@use '../../../../styles/themes/variables' as variables;
+
+.app-footer {
+  padding: variables.$spacing-md;
+  text-align: center;
+}

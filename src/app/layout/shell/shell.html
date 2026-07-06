@@ -1,0 +1,18 @@
+<div class="app-shell">
+  <app-header />
+
+  <mat-sidenav-container class="app-shell__container">
+    <mat-sidenav class="app-shell__sidenav" mode="side" opened>
+      <app-sidenav />
+    </mat-sidenav>
+
+    <mat-sidenav-content class="app-shell__content">
+      <main class="app-shell__main">
+        <p>Welcome to DH2 Clinic SPA</p>
+        <router-outlet />
+      </main>
+
+      <app-footer />
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>
