@@ -1,0 +1,31 @@
+@use '../../../styles/themes/variables' as variables;
+
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+
+  &__container {
+    flex: 1;
+    min-height: 0;
+  }
+
+  &__sidenav {
+    width: variables.$sidebar-width;
+    border-right: 1px solid #e0e0e0;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  &__main {
+    flex: 1;
+    min-height: 0;
+    overflow: auto;
+    padding: variables.$spacing-lg;
+  }
+}
