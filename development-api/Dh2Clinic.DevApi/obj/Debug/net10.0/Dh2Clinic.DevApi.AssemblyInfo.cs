@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Dh2Clinic.DevApi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3c666a546bb52e329899afb029c9714be3a427e7")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3bf49bc7f268478c6ccde013f9676bf37ecfcdbc")]
 [assembly: System.Reflection.AssemblyProductAttribute("Dh2Clinic.DevApi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Dh2Clinic.DevApi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
