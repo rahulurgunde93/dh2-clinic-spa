@@ -5,5 +5,44 @@ export const routes: Routes = [
   {
     path: '',
     component: Shell,
+    children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'dashboard',
+      },
+      {
+        path: 'dashboard',
+        loadComponent: () =>
+          import('./features/dashboard/pages/dashboard/dashboard').then(
+            (component) => component.Dashboard,
+          ),
+      },
+      {
+        path: 'patients',
+        loadComponent: () =>
+          import('./features/patients/pages/patient-list/patient-list').then(
+            (component) => component.PatientList,
+          ),
+      },
+      {
+        path: 'appointments',
+        loadComponent: () =>
+          import('./features/appointments/pages/appointment-list/appointment-list').then(
+            (component) => component.AppointmentList,
+          ),
+      },
+      {
+        path: 'settings',
+        loadComponent: () =>
+          import('./features/settings/pages/settings/settings').then(
+            (component) => component.Settings,
+          ),
+      },
+    ],
+  },
+  {
+    path: '**',
+    redirectTo: 'dashboard',
   },
 ];
