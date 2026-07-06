@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
+
+import { PatientStore } from '../../state/patient.store';
 
 @Component({
   selector: 'app-patient-list',
@@ -6,6 +8,10 @@ import { Component } from '@angular/core';
   templateUrl: './patient-list.html',
   styleUrl: './patient-list.scss',
 })
-export class PatientList {
+export class PatientList implements OnInit {
+  readonly store = inject(PatientStore);
 
+  ngOnInit(): void {
+    this.store.loadPatients();
+  }
 }

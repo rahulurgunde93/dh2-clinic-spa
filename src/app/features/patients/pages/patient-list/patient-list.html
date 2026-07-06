@@ -1,4 +1,25 @@
 <section>
   <h1>Patients</h1>
-  <p>Patient management feature.</p>
+
+  @if (store.loading()) {
+  <p>Loading patients...</p>
+  }
+
+  @if (store.error(); as error) {
+  <p role="alert">
+    {{ error.message }}
+  </p>
+  }
+
+  @if (store.hasPatients()) {
+  <ul>
+    @for (patient of store.patients(); track patient.id) {
+    <li>
+      {{ patient.firstName }} {{ patient.lastName }}
+    </li>
+    }
+  </ul>
+  } @else if (!store.loading() && !store.error()) {
+  <p>No patients found.</p>
+  }
 </section>
