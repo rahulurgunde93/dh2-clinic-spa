@@ -1,0 +1,6 @@
+@Dh2Clinic.DevApi_HostAddress = http://localhost:5033
+
+GET {{Dh2Clinic.DevApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
