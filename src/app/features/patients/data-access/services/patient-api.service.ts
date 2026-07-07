@@ -15,4 +15,7 @@ export class PatientApiService {
   getPatients(): Observable<ApiResponse<Patient[]>> {
     return this.apiService.get<Patient[]>(API_ENDPOINTS.patients);
   }
+  getPatient(id: number): Observable<ApiResponse<Patient>> {
+    return this.apiService.get<Patient>(`${API_ENDPOINTS.patients}/${id}`);
+  }
 }

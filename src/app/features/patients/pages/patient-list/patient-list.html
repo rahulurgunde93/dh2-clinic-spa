@@ -1,25 +1,75 @@
-<section>
+<section class="patient-page">
   <h1>Patients</h1>
 
   @if (store.loading()) {
-  <p>Loading patients...</p>
+  <div class="loading-container">
+    <mat-spinner diameter="40"></mat-spinner>
+    <p>Loading patients...</p>
+  </div>
   }
 
-  @if (store.error(); as error) {
-  <p role="alert">
-    {{ error.message }}
-  </p>
+  @else if (store.error(); as error) {
+  <mat-card class="error-card">
+    <p>{{ error.message }}</p>
+  </mat-card>
   }
 
-  @if (store.hasPatients()) {
-  <ul>
-    @for (patient of store.patients(); track patient.id) {
-    <li>
-      {{ patient.firstName }} {{ patient.lastName }}
-    </li>
-    }
-  </ul>
-  } @else if (!store.loading() && !store.error()) {
-  <p>No patients found.</p>
+  @else if (store.hasPatients()) {
+  <table mat-table [dataSource]="store.patients()" class="patient-table">
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>
+        ID
+      </th>
+
+      <td mat-cell *matCellDef="let patient">
+        {{ patient.id }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="firstName">
+      <th mat-header-cell *matHeaderCellDef>
+        First Name
+      </th>
+
+      <td mat-cell *matCellDef="let patient">
+        {{ patient.firstName }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="lastName">
+      <th mat-header-cell *matHeaderCellDef>
+        Last Name
+      </th>
+
+      <td mat-cell *matCellDef="let patient">
+        {{ patient.lastName }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>
+        Actions
+      </th>
+
+      <td mat-cell *matCellDef="let patient">
+        <button mat-stroked-button color="primary" [routerLink]="['/patients', patient.id]">
+          View Details
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns">
+    </tr>
+
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+    </tr>
+
+  </table>
+  }
+  @else {
+  <mat-card>
+    <h3>No Patients</h3>
+    <p>No patient records were found.</p>
+  </mat-card>
   }
 </section>

@@ -9,11 +9,13 @@ describe('PatientStore', () => {
   let store: PatientStore;
   let patientApiServiceMock: {
     getPatients: ReturnType<typeof vi.fn>;
+    getPatient: ReturnType<typeof vi.fn>;
   };
 
   beforeEach(() => {
     patientApiServiceMock = {
       getPatients: vi.fn(),
+      getPatient: vi.fn(),
     };
 
     TestBed.configureTestingModule({
@@ -65,6 +67,42 @@ describe('PatientStore', () => {
 
     expect(store.patients()).toEqual([]);
     expect(store.loading()).toBe(false);
+    expect(store.error()).toEqual(applicationError);
+  });
+
+  it('should load a selected patient successfully', () => {
+    const patient = {
+      id: 1,
+      firstName: 'Matti',
+      lastName: 'Virtanen',
+    };
+
+    patientApiServiceMock.getPatient.mockReturnValue(
+      of({
+        data: patient,
+        errors: [],
+      }),
+    );
+
+    store.loadPatient(1);
+
+    expect(store.selectedPatient()).toEqual(patient);
+    expect(store.hasSelectedPatient()).toBe(true);
+    expect(store.loading()).toBe(false);
+  });
+
+  it('should clear selected patient when loading fails', () => {
+    const applicationError: ApplicationError = {
+      status: 404,
+      message: 'Patient not found.',
+    };
+
+    patientApiServiceMock.getPatient.mockReturnValue(throwError(() => applicationError));
+
+    store.loadPatient(100);
+
+    expect(store.selectedPatient()).toBeNull();
+    expect(store.hasSelectedPatient()).toBe(false);
     expect(store.error()).toEqual(applicationError);
   });
 });

@@ -11,14 +11,17 @@ export class PatientStore {
   private readonly patientApiService = inject(PatientApiService);
 
   private readonly patientsState = signal<Patient[]>([]);
+  private readonly selectedPatientState = signal<Patient | null>(null);
   private readonly loadingState = signal(false);
   private readonly errorState = signal<ApplicationError | null>(null);
 
   readonly patients = this.patientsState.asReadonly();
+  readonly selectedPatient = this.selectedPatientState.asReadonly();
   readonly loading = this.loadingState.asReadonly();
   readonly error = this.errorState.asReadonly();
 
   readonly hasPatients = computed(() => this.patients().length > 0);
+  readonly hasSelectedPatient = computed(() => this.selectedPatient() !== null);
 
   loadPatients(): void {
     this.loadingState.set(true);
@@ -30,6 +33,22 @@ export class PatientStore {
         this.loadingState.set(false);
       },
       error: (error: ApplicationError) => {
+        this.errorState.set(error);
+        this.loadingState.set(false);
+      },
+    });
+  }
+  loadPatient(id: number): void {
+    this.loadingState.set(true);
+    this.errorState.set(null);
+
+    this.patientApiService.getPatient(id).subscribe({
+      next: (response) => {
+        this.selectedPatientState.set(response.data);
+        this.loadingState.set(false);
+      },
+      error: (error: ApplicationError) => {
+        this.selectedPatientState.set(null);
         this.errorState.set(error);
         this.loadingState.set(false);
       },

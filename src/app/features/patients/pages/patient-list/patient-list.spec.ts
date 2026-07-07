@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { signal } from '@angular/core';
+import { provideRouter, ActivatedRoute, convertToParamMap } from '@angular/router';
 
 import { PatientStore } from '../../state/patient.store';
 import { PatientList } from './patient-list';
@@ -30,6 +31,15 @@ describe('PatientList', () => {
     await TestBed.configureTestingModule({
       imports: [PatientList],
       providers: [
+        provideRouter([]),
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            snapshot: {
+              paramMap: convertToParamMap({}),
+            },
+          },
+        },
         {
           provide: PatientStore,
           useValue: patientStoreMock,
@@ -39,6 +49,7 @@ describe('PatientList', () => {
 
     fixture = TestBed.createComponent(PatientList);
     component = fixture.componentInstance;
+
     fixture.detectChanges();
   });
 
@@ -50,9 +61,10 @@ describe('PatientList', () => {
     expect(patientStoreMock.loadPatients).toHaveBeenCalled();
   });
 
-  it('should display patients from the store', () => {
-    const element: HTMLElement = fixture.nativeElement;
-
-    expect(element.textContent).toContain('Test Patient');
-  });
+it('should display patients from the store', () => {
+  const element: HTMLElement = fixture.nativeElement;
+  const text = element.textContent?.replace(/\s+/g, ' ').trim();
+  expect(text).toContain('Test Patient');
+  expect(element.querySelector('table')).toBeTruthy();
+});
 });
