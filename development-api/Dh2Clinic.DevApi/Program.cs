@@ -28,7 +28,7 @@ app.MapGet("/api/patients", async () =>
 
   return Results.Ok(new
   {
-    Data = Array.Empty<object>(),
+    Data =  patients,
     Errors = Array.Empty<object>()
   });
 });
@@ -78,6 +78,98 @@ app.MapGet("/api/patients/{id:int}", async (int id) =>
   return Results.Ok(new
   {
     Data = patient,
+    Errors = Array.Empty<object>()
+  });
+});
+
+app.MapGet("/api/appointments", () =>
+{
+  var appointments = new[]
+  {
+        new
+        {
+            Id = 1,
+            PatientId = 1,
+            PatientName = "Matti Virtanen",
+            AppointmentDate = "2026-07-15 09:00",
+            Status = "Scheduled"
+        },
+        new
+        {
+            Id = 2,
+            PatientId = 2,
+            PatientName = "Anna Korhonen",
+            AppointmentDate = "2026-07-15 10:00",
+            Status = "Completed"
+        },
+        new
+        {
+            Id = 3,
+            PatientId = 3,
+            PatientName = "Erik Johansson",
+            AppointmentDate = "2026-07-16 14:30",
+            Status = "Cancelled"
+        }
+    };
+
+  return Results.Ok(new
+  {
+    Data = appointments,
+    Errors = Array.Empty<object>()
+  });
+});
+
+app.MapGet("/api/appointments/{id:int}", (int id) =>
+{
+  var appointments = new[]
+  {
+        new
+        {
+            Id = 1,
+            PatientId = 1,
+            PatientName = "Matti Virtanen",
+            AppointmentDate = "2026-07-15 09:00",
+            Status = "Scheduled"
+        },
+        new
+        {
+            Id = 2,
+            PatientId = 2,
+            PatientName = "Anna Korhonen",
+            AppointmentDate = "2026-07-15 10:00",
+            Status = "Completed"
+        },
+        new
+        {
+            Id = 3,
+            PatientId = 3,
+            PatientName = "Erik Johansson",
+            AppointmentDate = "2026-07-16 14:30",
+            Status = "Cancelled"
+        }
+    };
+
+  var appointment = appointments.FirstOrDefault(a => a.Id == id);
+
+  if (appointment is null)
+  {
+    return Results.NotFound(new
+    {
+      Data = (object?)null,
+      Errors = new[]
+        {
+                new
+                {
+                    Code = "APPOINTMENT_NOT_FOUND",
+                    Message = $"Appointment with id {id} was not found."
+                }
+            }
+    });
+  }
+
+  return Results.Ok(new
+  {
+    Data = appointment,
     Errors = Array.Empty<object>()
   });
 });

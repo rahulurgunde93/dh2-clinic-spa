@@ -40,6 +40,13 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'appointments/:id',
+        loadComponent: () =>
+          import('./features/appointments/pages/appointment-details/appointment-details').then(
+            (component) => component.AppointmentDetails,
+          ),
+      },
+      {
         path: 'settings',
         loadComponent: () =>
           import('./features/settings/pages/settings/settings').then(
