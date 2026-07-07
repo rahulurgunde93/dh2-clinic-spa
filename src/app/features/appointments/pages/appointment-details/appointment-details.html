@@ -1,0 +1,53 @@
+<section class="appointment-details-page">
+
+  <h1>Appointment Details</h1>
+
+  @if (store.loading()) {
+
+  <div class="loading-container">
+    <mat-spinner diameter="40"></mat-spinner>
+    <p>Loading appointment...</p>
+  </div>
+
+  }
+
+  @else if (store.error(); as error) {
+
+  <mat-card class="error-card">
+    <p>{{ error.message }}</p>
+  </mat-card>
+
+  }
+
+  @else if (store.hasSelectedAppointment()) {
+
+  <mat-card>
+
+    <h2>Appointment #{{ store.selectedAppointment()?.id }}</h2>
+
+    <p>
+      <strong>Patient</strong><br>
+      {{ store.selectedAppointment()?.patientName }}
+    </p>
+
+    <p>
+      <strong>Date</strong><br>
+      {{ store.selectedAppointment()?.appointmentDate }}
+    </p>
+
+    <p>
+      <strong>Status</strong><br>
+      {{ store.selectedAppointment()?.status }}
+    </p>
+
+    <button mat-raised-button color="primary" routerLink="/appointments">
+
+      Back to Appointments
+
+    </button>
+
+  </mat-card>
+
+  }
+
+</section>
