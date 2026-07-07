@@ -1,15 +1,24 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 import { PatientStore } from '../../state/patient.store';
+import { MatTableModule } from '@angular/material/table';
+import { MatButtonModule } from '@angular/material/button';
+
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-patient-list',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule, RouterLink, MatTableModule, MatButtonModule, MatProgressSpinnerModule, MatCardModule],
   templateUrl: './patient-list.html',
-  styleUrl: './patient-list.scss',
+  styleUrls: ['./patient-list.scss'],
 })
 export class PatientList implements OnInit {
   readonly store = inject(PatientStore);
+  readonly displayedColumns = ['id', 'firstName', 'lastName', 'actions'];
 
   ngOnInit(): void {
     this.store.loadPatients();

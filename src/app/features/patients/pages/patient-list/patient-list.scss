@@ -1,0 +1,28 @@
+.patient-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.patient-table {
+  width: 100%;
+}
+
+.loading-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.error-card {
+  padding: 1rem;
+  color: #c62828;
+}
+
+.mat-mdc-header-cell {
+  font-weight: 600;
+}
+
+.mat-mdc-row:hover {
+  background: rgba(0, 0, 0, 0.04);
+}

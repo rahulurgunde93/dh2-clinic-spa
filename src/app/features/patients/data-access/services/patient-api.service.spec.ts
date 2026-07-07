@@ -44,5 +44,23 @@ describe('PatientApiService', () => {
 
     expect(apiServiceMock.get).toHaveBeenCalledWith('patients');
   });
+  it('should request a patient by id', () => {
+    const response = {
+      data: {
+        id: 1,
+        firstName: 'Matti',
+        lastName: 'Virtanen',
+      },
+      errors: [],
+    };
+
+    apiServiceMock.get.mockReturnValue(of(response));
+
+    service.getPatient(1).subscribe((result) => {
+      expect(result).toEqual(response);
+    });
+
+    expect(apiServiceMock.get).toHaveBeenCalledWith('patients/1');
+  });
 });
 // import { TestBed } from '@angular/core/testing';
