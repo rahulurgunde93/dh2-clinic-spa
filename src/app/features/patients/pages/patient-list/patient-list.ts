@@ -16,7 +16,8 @@ import { ErrorPanel } from '../../../../shared/components/error-panel/error-pane
 @Component({
   selector: 'app-patient-list',
   standalone: true,
-  imports: [CommonModule, RouterLink, MatTableModule, MatButtonModule, MatProgressSpinnerModule, MatCardModule, EmptyState, PageHeader, ErrorPanel],
+  imports: [CommonModule, RouterLink, MatTableModule, MatButtonModule, MatProgressSpinnerModule,
+    MatCardModule, EmptyState, PageHeader, ErrorPanel],
   templateUrl: './patient-list.html',
   styleUrls: ['./patient-list.scss'],
 })

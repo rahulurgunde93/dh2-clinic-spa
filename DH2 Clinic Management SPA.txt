@@ -1,0 +1,151 @@
+
+	
+	
+	DH2 Clinic Management SPA
+
+node -v
+npm -v
+ng version
+cd C:\Users\RahulUrgunde\source\repos
+ng new dh2-clinic-spa  --Sass, SSR(No), AI tool(No), Routing(Yes)
+cd dh2-clinic-spa
+ng serve	-> http://localhost:4200
+
+//intial project start
+git remote add origin https://github.com/rahulurgunde93/dh2-clinic-spa.git
+git init
+git status
+git add .
+git commit -m "Initial Angular 21 workspace"
+
+//creating folders
+ng generate component features/dashboard/pages/dashboard --standalone
+
+//checkout branch
+git checkout main
+git pull origin main / git pull
+git checkout feature/sprint1-story2-project-structure    //existing
+git checkout -b feature/sprint1-story2-project-structure	//new create
+git checkout -d feature/sprint1-story2-project-structure	//Delete existing
+
+//commit-push
+ng build
+git status
+git add .
+git commit -m "Create enterprise project structure"
+git push -u origin feature/sprint1-story2-project-structure
+git reset --soft HEAD~1	//revert last commit to keep changes back
+
+//story-3 Angular material and UI themes 
+ng add @angular/material
+npm list @angular/material
+
+//Story-4 Enterprise Application Shell
+ng g c layout/shell --standalone --skip-tests
+ng g c layout/components/header --standalone --skip-tests
+ng g c layout/components/sidenav --standalone --skip-tests
+ng g c layout/components/footer --standalone --skip-tests
+
+//Story 5: Feature Routing & Lazy Loading
+ng g c features/dashboard/pages/dashboard --standalone
+ng g c features/patients/pages/patient-list --standalone
+ng g c features/appointments/pages/appointment-list --standalone
+ng g c features/settings/pages/settings --standalone
+
+//Story 6: Core REST API Infrastructure
+ng generate environments
+src/app/core/models/api-response.model.ts
+src/app/core/models/api-error.model.ts
+src/app/core/config/api.config.ts
+src/app/core/constants/api-endpoints.constants.ts
+ng g s core/services/api
+npm test
+ng build
+git status
+
+//Story 7: HTTP Interceptors & Centralized Error Handling
+src/app/core/models/application-error.model.ts
+ng g interceptor core/interceptors/api-error --functional
+src/app/core/constants/http-status.constants.ts
+
+//Story 8: Patients Vertical Feature Flow
+
+//Sprint 2 – Story 9: Development REST API Integration
+from root : 
+	>dotnet new webapi -n Dh2Clinic.DevApi -o development-api/Dh2Clinic.DevApi
+	>cd development-api/Dh2Clinic.DevApi
+	>dotnet run
+	>npm start
+	>npm test
+	>npm build
+	>dotnet build development-api/Dh2Clinic.DevApi
+	>New-Item -Path . -Name "proxy.conf.json" -ItemType File	//from root
+	>Get-ChildItem proxy.conf.json
+	
+//Story 10: Patient Details Feature Flow
+//Story 11: Appointment Details Feature Flow
+
+//Story 12: Shared UI Components & Reusable Layout
+story12-shared-UI-components-and-reusable-layout
+src/app/shared/ 
+new folders->components (loading-spinner,error-panel,empty-state,page-header)
+
+ng generate component shared/components/loading-spinner --standalone --skip-tests
+ng generate component shared/components/error-panel --standalone --skip-tests
+ng generate component shared/components/empty-state --standalone --skip-tests
+ng generate component shared/components/page-header --standalone --skip-tests
+---------------------------------------------------
+
+Story	Topic
+Sprint-1
+Story 1 	Create Angular Workspace
+Story 2		Configure Project
+Story 3		Create Layout
+Story 4		Routing
+Story 5		Theme
+Story 6		Shared Components
+Story 7		HTTP Infrastructure
+Story 8		Interceptors
+Story 9		Localization			(Skiped)
+Story 10	Authentication Infrastructure	(Skiped)
+
+Sprint-2
+
+-------------------------------------------------------------
+Sprint-3
+13		Authentication & Authorization	
+14		Route Guards & Role-based Navigation	
+15		Reactive Forms (Create/Edit Patient)	
+16		Search, Filter & Pagination	
+17		Dialogs, Snackbar & Notifications	
+18		HTTP Loading Indicator & Global Error Handling
+
+
+//Story 13 
+git checkout -b feature/sprint3-story13-Authentication-Foundation
+
+src/app/core/auth/ and inside this
+/models, /services, /state
+
+
+
+Thanks all good till Story-7 all 14 tests passed.
+now help me with commit, push and PR? give me PR message and description for story-7 so you can do code review and then we will start with story-8
+
+
+
+
+
+
+
+
+
+
+
+{
+  "/api": {
+    "target": "http://localhost:5033",
+    "secure": false,
+    "changeOrigin": true
+  }
+}
