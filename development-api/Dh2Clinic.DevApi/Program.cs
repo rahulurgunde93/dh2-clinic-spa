@@ -174,4 +174,41 @@ app.MapGet("/api/appointments/{id:int}", (int id) =>
   });
 });
 
+app.MapPost("/api/auth/login", () =>
+{
+  return Results.Ok(new
+  {
+    Data = new
+    {
+      Token = "mock-jwt-token",
+      ExpiresAt = DateTime.UtcNow.AddHours(1)
+    },
+    Errors = Array.Empty<object>()
+  });
+});
+
+app.MapGet("/api/auth/me", () =>
+{
+  return Results.Ok(new
+  {
+    Data = new
+    {
+      Id = 1,
+      Username = "rahul",
+      DisplayName = "Rahul Urgunde",
+      Role = "Administrator"
+    },
+    Errors = Array.Empty<object>()
+  });
+});
+
+app.MapPost("/api/auth/logout", () =>
+{
+  return Results.Ok(new
+  {
+    Data = true,
+    Errors = Array.Empty<object>()
+  });
+});
+
 app.Run();
