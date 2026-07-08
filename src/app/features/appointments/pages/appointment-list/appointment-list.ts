@@ -8,6 +8,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
 
 import { AppointmentStore } from '../../state/appointment.store';
+import { EmptyState } from '../../../../shared/components/empty-state/empty-state';
+import { PageHeader } from '../../../../shared/components/page-header/page-header';
+import { ErrorPanel } from '../../../../shared/components/error-panel/error-panel';
 
 @Component({
   selector: 'app-appointment-list',
@@ -19,6 +22,9 @@ import { AppointmentStore } from '../../state/appointment.store';
     MatButtonModule,
     MatProgressSpinnerModule,
     MatCardModule,
+    EmptyState,
+    PageHeader,
+    ErrorPanel
   ],
   templateUrl: './appointment-list.html',
   styleUrls: ['./appointment-list.scss'],

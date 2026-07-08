@@ -1,5 +1,7 @@
-<section class="patient-page">
-  <h1>Patients</h1>
+<section class="page-layout">
+  <app-page-header title="Patients" subtitle="Manage clinic patients"></app-page-header>
+
+<div class="page-content">
 
   @if (store.loading()) {
   <div class="loading-container">
@@ -9,10 +11,8 @@
   }
 
   @else if (store.error(); as error) {
-  <mat-card class="error-card">
-    <p>{{ error.message }}</p>
-  </mat-card>
-  }
+    <app-error-panel [message]="error.message"></app-error-panel>
+}
 
   @else if (store.hasPatients()) {
   <table mat-table [dataSource]="store.patients()" class="patient-table">
@@ -67,9 +67,8 @@
   </table>
   }
   @else {
-  <mat-card>
-    <h3>No Patients</h3>
-    <p>No patient records were found.</p>
-  </mat-card>
+    <app-empty-state message="No patients found."></app-empty-state>
   }
+
+</div>
 </section>

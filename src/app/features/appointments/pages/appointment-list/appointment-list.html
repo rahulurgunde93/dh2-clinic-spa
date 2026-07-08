@@ -1,6 +1,8 @@
-<section class="appointment-page">
+<section class="page-layout">
 
-  <h1>Appointments</h1>
+  <app-page-header title="Appointments" subtitle="Manage appointments"></app-page-header>
+
+<div class="page-content">
 
   @if (store.loading()) {
 
@@ -12,11 +14,7 @@
   }
 
   @else if (store.error(); as error) {
-
-  <mat-card class="error-card">
-    <p>{{ error.message }}</p>
-  </mat-card>
-
+  <app-error-panel [message]="error.message"></app-error-panel>
   }
 
   @else if (store.hasAppointments()) {
@@ -72,15 +70,8 @@
   }
 
   @else {
-
-  <mat-card>
-
-    <h3>No Appointments</h3>
-
-    <p>No appointments found.</p>
-
-  </mat-card>
-
+    <app-empty-state message="No appointments found."></app-empty-state>
   }
 
+</div>
 </section>

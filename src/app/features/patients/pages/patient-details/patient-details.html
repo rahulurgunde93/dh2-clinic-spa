@@ -1,18 +1,20 @@
-<section>
+<section class="page-layout">
 
   <button mat-stroked-button routerLink="/patients">
     ← Back to Patients
   </button>
 
+  <app-page-header title="Patient Details"></app-page-header>
+
+<div class="page-content">
+
   @if (store.loading()) {
   <p>Loading patient...</p>
   }
 
-  @if (store.error(); as error) {
-  <p class="error">
-    {{ error.message }}
-  </p>
-  }
+@if (store.error(); as error) {
+<app-error-panel [message]="error.message"></app-error-panel>
+}
 
   @if (store.hasSelectedPatient()) {
 
@@ -49,4 +51,5 @@
 
   }
 
+</div>
 </section>

@@ -7,11 +7,13 @@ import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { AppointmentStore } from '../../state/appointment.store';
+import { ErrorPanel } from '../../../../shared/components/error-panel/error-panel';
+import { PageHeader } from '../../../../shared/components/page-header/page-header';
 
 @Component({
   selector: 'app-appointment-details',
   standalone: true,
-  imports: [CommonModule, RouterLink, MatCardModule, MatButtonModule, MatProgressSpinnerModule],
+  imports: [CommonModule, RouterLink, MatCardModule, MatButtonModule, MatProgressSpinnerModule, ErrorPanel, PageHeader],
   templateUrl: './appointment-details.html',
   styleUrls: ['./appointment-details.scss'],
 })

@@ -9,10 +9,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCardModule } from '@angular/material/card';
 
+import { EmptyState } from '../../../../shared/components/empty-state/empty-state';
+import { PageHeader } from '../../../../shared/components/page-header/page-header';
+import { ErrorPanel } from '../../../../shared/components/error-panel/error-panel';
+
 @Component({
   selector: 'app-patient-list',
   standalone: true,
-  imports: [CommonModule, RouterLink, MatTableModule, MatButtonModule, MatProgressSpinnerModule, MatCardModule],
+  imports: [CommonModule, RouterLink, MatTableModule, MatButtonModule, MatProgressSpinnerModule, MatCardModule, EmptyState, PageHeader, ErrorPanel],
   templateUrl: './patient-list.html',
   styleUrls: ['./patient-list.scss'],
 })
