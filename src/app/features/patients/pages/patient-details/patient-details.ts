@@ -4,11 +4,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 
 import { PatientStore } from '../../state/patient.store';
+import { ErrorPanel } from '../../../../shared/components/error-panel/error-panel';
+import { PageHeader } from '../../../../shared/components/page-header/page-header';
 
 @Component({
   selector: 'app-patient-details',
   standalone: true,
-  imports: [RouterLink, MatButtonModule, MatCardModule],
+  imports: [RouterLink, MatButtonModule, MatCardModule, ErrorPanel, PageHeader],
   templateUrl: './patient-details.html',
   styleUrl: './patient-details.scss',
 })
