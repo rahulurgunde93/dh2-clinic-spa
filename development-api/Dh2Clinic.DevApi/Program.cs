@@ -174,14 +174,27 @@ app.MapGet("/api/appointments/{id:int}", (int id) =>
   });
 });
 
-app.MapPost("/api/auth/login", () =>
+app.MapPost("/api/auth/login", async (LoginRequest request) =>
 {
+  if (request.Username != "admin" ||
+      request.Password != "admin")
+  {
+    return Results.Unauthorized();
+  }
+
   return Results.Ok(new
   {
     Data = new
     {
       Token = "mock-jwt-token",
-      ExpiresAt = DateTime.UtcNow.AddHours(1)
+      ExpiresAt = DateTime.UtcNow.AddHours(8),
+      User = new
+      {
+        Id = 1,
+        Username = "admin",
+        FullName = "DH2 Administrator",
+        Role = "Administrator"
+      }
     },
     Errors = Array.Empty<object>()
   });
@@ -212,3 +225,5 @@ app.MapPost("/api/auth/logout", () =>
 });
 
 app.Run();
+record LoginRequest(string Username, string Password);
+
