@@ -43,9 +43,7 @@ export class Login {
       next: () => {
         void this.router.navigate(['/patients']);
       },
-      error: (error) => {
-        console.error('Login failed', error);
-      },
+      error: (error) => {console.error(error);},
     });
   }
 }
