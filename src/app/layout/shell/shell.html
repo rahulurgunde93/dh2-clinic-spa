@@ -1,17 +1,40 @@
-<div class="app-shell">
-  <app-header />
+<app-toolbar (menuClick)="toggleMenu()">
+</app-toolbar>
 
-  <mat-sidenav-container class="app-shell__container">
-    <mat-sidenav class="app-shell__sidenav" mode="side" opened>
-      <app-sidenav />
-    </mat-sidenav>
+<mat-sidenav-container class="shell-container">
 
-    <mat-sidenav-content class="app-shell__content">
-      <main class="app-shell__main">
-        <router-outlet />
-      </main>
+  <mat-sidenav [mode]="mobile() ? 'over' : 'side'" [opened]="opened()" (closedStart)="opened.set(false)">
 
-      <app-footer />
-    </mat-sidenav-content>
-  </mat-sidenav-container>
-</div>
+    <mat-nav-list>
+
+      <a mat-list-item routerLink="/dashboard" routerLinkActive="active-link">
+        Dashboard
+      </a>
+
+      <a mat-list-item routerLink="/patients" routerLinkActive="active-link" (click)="mobile() && opened.set(false)">
+        Patients
+      </a>
+
+      <a mat-list-item routerLink="/appointments" routerLinkActive="active-link" (click)="mobile() && opened.set(false)">
+        Appointments
+      </a>
+
+      <a mat-list-item routerLink="/settings" routerLinkActive="active-link" (click)="mobile() && opened.set(false)">
+        Settings
+      </a>
+
+    </mat-nav-list>
+
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+
+    <main class="page-content">
+
+      <router-outlet></router-outlet>
+
+    </main>
+
+  </mat-sidenav-content>
+
+</mat-sidenav-container>

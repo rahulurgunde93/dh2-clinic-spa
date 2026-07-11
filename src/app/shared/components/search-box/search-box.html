@@ -1,0 +1,22 @@
+<mat-form-field appearance="outline" class="search-box">
+  <input matInput [formControl]="searchControl" [matAutocomplete]="patientAuto" placeholder="Search patients by name" />
+  <mat-icon matSuffix>
+    search
+  </mat-icon>
+</mat-form-field>
+
+<mat-autocomplete #patientAuto="matAutocomplete" [displayWith]="displayPatient"
+  (optionSelected)="selectPatient($event.option.value)">
+
+  @for (patient of results(); track patient.id) {
+
+  <mat-option [value]="patient">
+
+    {{ patient.firstName }}
+    {{ patient.lastName }}
+
+  </mat-option>
+
+  }
+
+</mat-autocomplete>

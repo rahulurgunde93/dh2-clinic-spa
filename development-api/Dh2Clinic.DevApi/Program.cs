@@ -224,6 +224,28 @@ app.MapPost("/api/auth/logout", () =>
   });
 });
 
+app.MapGet("/api/patients/search", (string query) =>
+{
+  var patients = new[]
+  {
+        new { Id = 1, FirstName = "Matti", LastName = "Virtanen" },
+        new { Id = 2, FirstName = "Anna", LastName = "Korhonen" },
+        new { Id = 3, FirstName = "Erik", LastName = "Johansson" }
+    };
+
+  var filtered = patients
+      .Where(p =>
+          $"{p.FirstName} {p.LastName}"
+              .Contains(query, StringComparison.OrdinalIgnoreCase))
+      .ToArray();
+
+  return Results.Ok(new
+  {
+    Data = filtered,
+    Errors = Array.Empty<object>()
+  });
+});
+
 app.Run();
 record LoginRequest(string Username, string Password);
 
