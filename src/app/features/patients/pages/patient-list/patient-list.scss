@@ -14,3 +14,8 @@
 .mat-mdc-row:hover {
   background: rgba(0, 0, 0, 0.04);
 }
+.page-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 16px;
+}

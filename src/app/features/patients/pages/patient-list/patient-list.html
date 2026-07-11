@@ -1,74 +1,71 @@
 <section class="page-layout">
-  <app-page-header title="Patients" subtitle="Manage clinic patients"></app-page-header>
+  <app-page-header title="Patients" subtitle="Manage clinic patients">
+  </app-page-header>
 
-<div class="page-content">
+  <div class="page-content">
 
-  @if (store.loading()) {
-  <div class="loading-container">
-    <mat-spinner diameter="40"></mat-spinner>
-    <p>Loading patients...</p>
+    <div class="page-actions">
+      <button mat-flat-button color="primary" (click)="openCreateDialog()">
+        Add Patient
+      </button>
+    </div>
+
+    @if (store.loading()) {
+
+    <app-loading-spinner></app-loading-spinner>
+
+    } @else if (store.error(); as error) {
+
+    <app-error-panel [message]="error.message">
+    </app-error-panel>
+
+    } @else if (store.hasPatients()) {
+
+    <table mat-table [dataSource]="store.patients()" class="patient-table">
+
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef>ID</th>
+        <td mat-cell *matCellDef="let patient">
+          {{ patient.id }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="firstName">
+        <th mat-header-cell *matHeaderCellDef>First Name</th>
+        <td mat-cell *matCellDef="let patient">
+          {{ patient.firstName }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="lastName">
+        <th mat-header-cell *matHeaderCellDef>Last Name</th>
+        <td mat-cell *matCellDef="let patient">
+          {{ patient.lastName }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let patient">
+          <button mat-stroked-button color="primary" [routerLink]="['/patients', patient.id]">
+            View Details
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+      </tr>
+
+    </table>
+
+    } @else {
+
+    <app-empty-state message="No patients found.">
+    </app-empty-state>
+
+    }
+
   </div>
-  }
-
-  @else if (store.error(); as error) {
-    <app-error-panel [message]="error.message"></app-error-panel>
-}
-
-  @else if (store.hasPatients()) {
-  <table mat-table [dataSource]="store.patients()" class="patient-table">
-    <ng-container matColumnDef="id">
-      <th mat-header-cell *matHeaderCellDef>
-        ID
-      </th>
-
-      <td mat-cell *matCellDef="let patient">
-        {{ patient.id }}
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="firstName">
-      <th mat-header-cell *matHeaderCellDef>
-        First Name
-      </th>
-
-      <td mat-cell *matCellDef="let patient">
-        {{ patient.firstName }}
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="lastName">
-      <th mat-header-cell *matHeaderCellDef>
-        Last Name
-      </th>
-
-      <td mat-cell *matCellDef="let patient">
-        {{ patient.lastName }}
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="actions">
-      <th mat-header-cell *matHeaderCellDef>
-        Actions
-      </th>
-
-      <td mat-cell *matCellDef="let patient">
-        <button mat-stroked-button color="primary" [routerLink]="['/patients', patient.id]">
-          View Details
-        </button>
-      </td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns">
-    </tr>
-
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
-    </tr>
-
-  </table>
-  }
-  @else {
-    <app-empty-state message="No patients found."></app-empty-state>
-  }
-
-</div>
 </section>
