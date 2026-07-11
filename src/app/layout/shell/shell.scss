@@ -1,31 +1,21 @@
-@use '../../../styles/themes/variables' as variables;
-
-.app-shell {
+:host {
   display: flex;
   flex-direction: column;
   height: 100vh;
-  overflow: hidden;
+}
 
-  &__container {
-    flex: 1;
-    min-height: 0;
-  }
+.shell-container {
+  flex: 1;
+}
 
-  &__sidenav {
-    width: variables.$sidebar-width;
-    border-right: 1px solid #e0e0e0;
-  }
+mat-sidenav {
+  width: 240px;
+}
 
-  &__content {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-  }
+.page-content {
+  padding: 24px;
+}
 
-  &__main {
-    flex: 1;
-    min-height: 0;
-    overflow: auto;
-    padding: variables.$spacing-lg;
-  }
+.active-link {
+  font-weight: 700;
 }

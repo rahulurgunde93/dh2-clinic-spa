@@ -1,0 +1,29 @@
+<mat-toolbar color="primary">
+
+  <button mat-icon-button (click)="menuClick.emit()">
+    <mat-icon>menu</mat-icon>
+  </button>
+
+  <span class="title"> DH2 Clinic SPA </span>
+
+  <app-search-box></app-search-box>
+
+  <span class="spacer"></span>
+
+  @if (user(); as currentUser) {
+
+  <span class="user-name">
+
+    {{ currentUser.fullName }}
+
+  </span>
+
+  <button mat-button (click)="logout()">
+
+    Logout
+
+  </button>
+
+  }
+
+</mat-toolbar>
