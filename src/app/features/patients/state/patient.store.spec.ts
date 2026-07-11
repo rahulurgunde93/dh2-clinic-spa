@@ -10,12 +10,14 @@ describe('PatientStore', () => {
   let patientApiServiceMock: {
     getPatients: ReturnType<typeof vi.fn>;
     getPatient: ReturnType<typeof vi.fn>;
+    createPatient: ReturnType<typeof vi.fn>;
   };
 
   beforeEach(() => {
     patientApiServiceMock = {
       getPatients: vi.fn(),
       getPatient: vi.fn(),
+      createPatient: vi.fn(),
     };
 
     TestBed.configureTestingModule({
@@ -37,6 +39,10 @@ describe('PatientStore', () => {
         id: 1,
         firstName: 'Test',
         lastName: 'Patient',
+        email: 'test@example.com',
+        phoneNumber: '0401234567',
+        dateOfBirth: '1990-01-01',
+        status: 'Active',
       },
     ];
 
@@ -75,6 +81,10 @@ describe('PatientStore', () => {
       id: 1,
       firstName: 'Matti',
       lastName: 'Virtanen',
+      email: 'matti@example.com',
+      phoneNumber: '0401234567',
+      dateOfBirth: '1985-02-12',
+      status: 'Active',
     };
 
     patientApiServiceMock.getPatient.mockReturnValue(
@@ -104,5 +114,33 @@ describe('PatientStore', () => {
     expect(store.selectedPatient()).toBeNull();
     expect(store.hasSelectedPatient()).toBe(false);
     expect(store.error()).toEqual(applicationError);
+  });
+
+  it('should add a patient', () => {
+    const request = {
+      firstName: 'John',
+      lastName: 'Doe',
+      email: 'john@test.com',
+      phoneNumber: '123456789',
+      dateOfBirth: '1990-01-01',
+      status: 'Active' as const,
+    };
+
+    const response = {
+      id: 100,
+      ...request,
+    };
+
+    patientApiServiceMock.createPatient = vi.fn().mockReturnValue(
+      of({
+        data: response,
+        errors: [],
+      }),
+    );
+
+    store.addPatient(request);
+
+    expect(store.hasPatients()).toBe(true);
+    expect(store.patients()[0].id).toBe(100);
   });
 });

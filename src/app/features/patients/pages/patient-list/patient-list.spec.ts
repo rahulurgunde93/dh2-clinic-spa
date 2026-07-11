@@ -14,6 +14,10 @@ describe('PatientList', () => {
       id: 1,
       firstName: 'Test',
       lastName: 'Patient',
+      email: 'test@example.com',
+      phoneNumber: '0401234567',
+      dateOfBirth: '1990-01-01',
+      status: 'Active',
     },
   ]);
 

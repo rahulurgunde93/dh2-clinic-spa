@@ -1,0 +1,17 @@
+<h2 mat-dialog-title>
+  Create Patient
+</h2>
+
+<mat-dialog-content>
+  <app-patient-form #patientForm></app-patient-form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>
+    Cancel
+  </button>
+
+  <button mat-flat-button color="primary" [disabled]="patientForm.form.invalid" (click)="save(patientForm)">
+    Save
+  </button>
+</mat-dialog-actions>

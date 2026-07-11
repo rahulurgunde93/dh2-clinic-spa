@@ -3,6 +3,7 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 import { ApplicationError } from '../../../core/models/application-error.model';
 import { Patient } from '../data-access/models/patient.model';
 import { PatientApiService } from '../data-access/services/patient-api.service';
+import { CreatePatientRequest } from '../data-access/models/create-patient-request.model';
 
 @Injectable({
   providedIn: 'root',
@@ -51,6 +52,23 @@ export class PatientStore {
         this.selectedPatientState.set(null);
         this.errorState.set(error);
         this.loadingState.set(false);
+      },
+    });
+  }
+  addPatient(request: CreatePatientRequest): void {
+    this.loadingState.set(true);
+
+    this.patientApiService.createPatient(request).subscribe({
+      next: (response) => {
+        this.patientsState.update((patients) => [...patients, response.data]);
+
+        this.loadingState.set(false);
+        this.errorState.set(null);
+      },
+
+      error: (error) => {
+        this.loadingState.set(false);
+        this.errorState.set(error);
       },
     });
   }

@@ -7,23 +7,35 @@ app.MapGet("/api/patients", async () =>
   var patients = new[]
   {
         new
-        {
-            Id = 1,
-            FirstName = "Matti",
-            LastName = "Virtanen"
-        },
-        new
-        {
-            Id = 2,
-            FirstName = "Anna",
-            LastName = "Korhonen"
-        },
-        new
-        {
-            Id = 3,
-            FirstName = "Erik",
-            LastName = "Johansson"
-        }
+          {
+              Id = 1,
+              FirstName = "Matti",
+              LastName = "Virtanen",
+              Email = "matti@example.com",
+              PhoneNumber = "0401234567",
+              DateOfBirth = "1985-02-12",
+              Status = "Active"
+          },
+          new
+          {
+              Id = 2,
+              FirstName = "Anna",
+              LastName = "Korhonen",
+              Email = "anna@example.com",
+              PhoneNumber = "0407654321",
+              DateOfBirth = "1990-08-25",
+              Status = "Active"
+          },
+          new
+          {
+              Id = 3,
+              FirstName = "Erik",
+              LastName = "Johansson",
+              Email = "erik@example.com",
+              PhoneNumber = "0409988776",
+              DateOfBirth = "1988-11-03",
+              Status = "Inactive"
+          }
     };
 
   return Results.Ok(new
@@ -38,23 +50,35 @@ app.MapGet("/api/patients/{id:int}", async (int id) =>
   var patients = new[]
   {
         new
-        {
-            Id = 1,
-            FirstName = "Matti",
-            LastName = "Virtanen"
-        },
-        new
-        {
-            Id = 2,
-            FirstName = "Anna",
-            LastName = "Korhonen"
-        },
-        new
-        {
-            Id = 3,
-            FirstName = "Erik",
-            LastName = "Johansson"
-        }
+          {
+              Id = 1,
+              FirstName = "Matti",
+              LastName = "Virtanen",
+              Email = "matti@example.com",
+              PhoneNumber = "0401234567",
+              DateOfBirth = "1985-02-12",
+              Status = "Active"
+          },
+          new
+          {
+              Id = 2,
+              FirstName = "Anna",
+              LastName = "Korhonen",
+              Email = "anna@example.com",
+              PhoneNumber = "0407654321",
+              DateOfBirth = "1990-08-25",
+              Status = "Active"
+          },
+          new
+          {
+              Id = 3,
+              FirstName = "Erik",
+              LastName = "Johansson",
+              Email = "erik@example.com",
+              PhoneNumber = "0409988776",
+              DateOfBirth = "1988-11-03",
+              Status = "Inactive"
+          }
     };
 
   var patient = patients.FirstOrDefault(p => p.Id == id);
@@ -246,6 +270,54 @@ app.MapGet("/api/patients/search", (string query) =>
   });
 });
 
+app.MapPost("/api/patients", (CreatePatientRequest request) =>
+{
+  // Validation
+  if (string.IsNullOrWhiteSpace(request.FirstName) ||
+    string.IsNullOrWhiteSpace(request.LastName) ||
+    string.IsNullOrWhiteSpace(request.Email))
+  {
+    return Results.BadRequest(new
+    {
+      Data = (object?)null,
+      Errors = new[]
+        {
+                new
+                {
+                    Code = "FIRST_NAME_REQUIRED",
+                    Message = "First name is required."
+                }
+            }
+    });
+  }
+
+  // Create patient
+  var patient = new
+  {
+    Id = Random.Shared.Next(1000, 9999),
+
+    request.FirstName,
+    request.LastName,
+    request.Email,
+    request.PhoneNumber,
+    request.DateOfBirth,
+    request.Status
+  };
+
+  // Return response
+  return Results.Ok(new
+  {
+    Data = patient,
+    Errors = Array.Empty<object>()
+  });
+});
+
 app.Run();
 record LoginRequest(string Username, string Password);
-
+record CreatePatientRequest(
+    string FirstName,
+    string LastName,
+    string Email,
+    string PhoneNumber,
+    string DateOfBirth,
+    string Status);
