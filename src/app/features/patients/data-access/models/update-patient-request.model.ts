@@ -1,0 +1,9 @@
+export interface UpdatePatientRequest {
+  id: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phoneNumber: string;
+  dateOfBirth: string;
+  status: 'Active' | 'Inactive';
+}

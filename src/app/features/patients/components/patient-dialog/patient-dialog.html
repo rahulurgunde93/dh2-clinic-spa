@@ -1,9 +1,10 @@
 <h2 mat-dialog-title>
-  Create Patient
+  {{ isEditMode ? 'Edit Patient' : 'Create Patient' }}
 </h2>
 
 <mat-dialog-content>
-  <app-patient-form #patientForm></app-patient-form>
+<app-patient-form #patientForm [patient]="patient">
+</app-patient-form>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
@@ -11,7 +12,7 @@
     Cancel
   </button>
 
-  <button mat-flat-button color="primary" [disabled]="patientForm.form.invalid" (click)="save(patientForm)">
-    Save
+  <button mat-flat-button color="primary" [disabled]="saving()" (click)="save(patientForm)">
+    {{ saving() ? 'Saving...' : 'Save' }}
   </button>
 </mat-dialog-actions>

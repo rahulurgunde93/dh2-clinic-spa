@@ -2,86 +2,54 @@ var builder = WebApplication.CreateBuilder(args);
 
 var app = builder.Build();
 
-app.MapGet("/api/patients", async () =>
+var patients = new List<PatientDto>
 {
-  var patients = new[]
-  {
-        new
-          {
-              Id = 1,
-              FirstName = "Matti",
-              LastName = "Virtanen",
-              Email = "matti@example.com",
-              PhoneNumber = "0401234567",
-              DateOfBirth = "1985-02-12",
-              Status = "Active"
-          },
-          new
-          {
-              Id = 2,
-              FirstName = "Anna",
-              LastName = "Korhonen",
-              Email = "anna@example.com",
-              PhoneNumber = "0407654321",
-              DateOfBirth = "1990-08-25",
-              Status = "Active"
-          },
-          new
-          {
-              Id = 3,
-              FirstName = "Erik",
-              LastName = "Johansson",
-              Email = "erik@example.com",
-              PhoneNumber = "0409988776",
-              DateOfBirth = "1988-11-03",
-              Status = "Inactive"
-          }
-    };
+    new()
+    {
+        Id = 1,
+        FirstName = "Matti",
+        LastName = "Virtanen",
+        Email = "matti@example.com",
+        PhoneNumber = "0401234567",
+        DateOfBirth = "1985-02-12",
+        Status = "Active"
+    },
 
+    new()
+    {
+        Id = 2,
+        FirstName = "Anna",
+        LastName = "Korhonen",
+        Email = "anna@example.com",
+        PhoneNumber = "0407654321",
+        DateOfBirth = "1990-07-05",
+        Status = "Inactive"
+    },
+
+    new()
+    {
+        Id = 3,
+        FirstName = "Erik",
+        LastName = "Johansson",
+        Email = "erik@example.com",
+        PhoneNumber = "0409999999",
+        DateOfBirth = "1988-11-21",
+        Status = "Active"
+    }
+};
+
+app.MapGet("/api/patients", () =>
+{
   return Results.Ok(new
   {
-    Data =  patients,
+    Data = patients,
     Errors = Array.Empty<object>()
   });
 });
 
-app.MapGet("/api/patients/{id:int}", async (int id) =>
+app.MapGet("/api/patients/{id:int}", (int id) =>
 {
-  var patients = new[]
-  {
-        new
-          {
-              Id = 1,
-              FirstName = "Matti",
-              LastName = "Virtanen",
-              Email = "matti@example.com",
-              PhoneNumber = "0401234567",
-              DateOfBirth = "1985-02-12",
-              Status = "Active"
-          },
-          new
-          {
-              Id = 2,
-              FirstName = "Anna",
-              LastName = "Korhonen",
-              Email = "anna@example.com",
-              PhoneNumber = "0407654321",
-              DateOfBirth = "1990-08-25",
-              Status = "Active"
-          },
-          new
-          {
-              Id = 3,
-              FirstName = "Erik",
-              LastName = "Johansson",
-              Email = "erik@example.com",
-              PhoneNumber = "0409988776",
-              DateOfBirth = "1988-11-03",
-              Status = "Inactive"
-          }
-    };
-
-  var patient = patients.FirstOrDefault(p => p.Id == id);
+  var patient = patients.FirstOrDefault(x => x.Id == id);
 
   if (patient is null)
   {
@@ -92,8 +60,8 @@ app.MapGet("/api/patients/{id:int}", async (int id) =>
         {
                 new
                 {
-                    Code = "PATIENT_NOT_FOUND",
-                    Message = $"Patient with id {id} was not found."
+                    Code="NOT_FOUND",
+                    Message="Patient not found."
                 }
             }
     });
@@ -250,17 +218,16 @@ app.MapPost("/api/auth/logout", () =>
 
 app.MapGet("/api/patients/search", (string query) =>
 {
-  var patients = new[]
-  {
-        new { Id = 1, FirstName = "Matti", LastName = "Virtanen" },
-        new { Id = 2, FirstName = "Anna", LastName = "Korhonen" },
-        new { Id = 3, FirstName = "Erik", LastName = "Johansson" }
-    };
-
   var filtered = patients
       .Where(p =>
           $"{p.FirstName} {p.LastName}"
               .Contains(query, StringComparison.OrdinalIgnoreCase))
+      .Select(p => new
+      {
+        p.Id,
+        p.FirstName,
+        p.LastName
+      })
       .ToArray();
 
   return Results.Ok(new
@@ -270,12 +237,10 @@ app.MapGet("/api/patients/search", (string query) =>
   });
 });
 
-app.MapPost("/api/patients", (CreatePatientRequest request) =>
+app.MapPost("/api/patients",
+(CreatePatientRequest request) =>
 {
-  // Validation
-  if (string.IsNullOrWhiteSpace(request.FirstName) ||
-    string.IsNullOrWhiteSpace(request.LastName) ||
-    string.IsNullOrWhiteSpace(request.Email))
+  if (string.IsNullOrWhiteSpace(request.FirstName))
   {
     return Results.BadRequest(new
     {
@@ -284,27 +249,50 @@ app.MapPost("/api/patients", (CreatePatientRequest request) =>
         {
                 new
                 {
-                    Code = "FIRST_NAME_REQUIRED",
-                    Message = "First name is required."
+                    Code="FIRST_NAME_REQUIRED",
+                    Message="First name is required."
                 }
             }
     });
   }
 
-  // Create patient
-  var patient = new
+  var patient = new PatientDto
   {
-    Id = Random.Shared.Next(1000, 9999),
-
-    request.FirstName,
-    request.LastName,
-    request.Email,
-    request.PhoneNumber,
-    request.DateOfBirth,
-    request.Status
+    Id = patients.Max(x => x.Id) + 1,
+    FirstName = request.FirstName,
+    LastName = request.LastName,
+    Email = request.Email,
+    PhoneNumber = request.PhoneNumber,
+    DateOfBirth = request.DateOfBirth,
+    Status = request.Status
   };
 
-  // Return response
+  patients.Add(patient);
+
+  return Results.Ok(new
+  {
+    Data = patient,
+    Errors = Array.Empty<object>()
+  });
+});
+
+app.MapPut("/api/patients/{id:int}",
+(int id, UpdatePatientRequest request) =>
+{
+  var patient = patients.FirstOrDefault(x => x.Id == id);
+
+  if (patient is null)
+  {
+    return Results.NotFound();
+  }
+
+  patient.FirstName = request.FirstName;
+  patient.LastName = request.LastName;
+  patient.Email = request.Email;
+  patient.PhoneNumber = request.PhoneNumber;
+  patient.DateOfBirth = request.DateOfBirth;
+  patient.Status = request.Status;
+
   return Results.Ok(new
   {
     Data = patient,
@@ -314,10 +302,15 @@ app.MapPost("/api/patients", (CreatePatientRequest request) =>
 
 app.Run();
 record LoginRequest(string Username, string Password);
-record CreatePatientRequest(
-    string FirstName,
-    string LastName,
-    string Email,
-    string PhoneNumber,
-    string DateOfBirth,
-    string Status);
+record CreatePatientRequest(string FirstName, string LastName, string Email, string PhoneNumber, string DateOfBirth, string Status);
+record UpdatePatientRequest(int Id, string FirstName, string LastName, string Email, string PhoneNumber, string DateOfBirth, string Status);
+record PatientDto
+{
+  public int Id { get; set; }
+  public string FirstName { get; set; } = string.Empty;
+  public string LastName { get; set; } = string.Empty;
+  public string Email { get; set; } = string.Empty;
+  public string PhoneNumber { get; set; } = string.Empty;
+  public string DateOfBirth { get; set; } = string.Empty;
+  public string Status { get; set; } = "Active";
+}

@@ -12,12 +12,14 @@ describe('PatientApiService', () => {
 let apiServiceMock: {
   get: ReturnType<typeof vi.fn>;
   post: ReturnType<typeof vi.fn>;
+  put: ReturnType<typeof vi.fn>;
 };
 
   beforeEach(() => {
     apiServiceMock = {
       get: vi.fn(),
       post: vi.fn(),
+      put: vi.fn(),
     };
 
     TestBed.configureTestingModule({
@@ -105,6 +107,30 @@ service.createPatient(request).subscribe((result) => {
 });
 
     expect(apiServiceMock.post).toHaveBeenCalledWith('patients', request);
+  });
+  it('should update patient', () => {
+    const request = {
+      id: 1,
+      firstName: 'Updated',
+      lastName: 'Patient',
+      email: 'updated@test.com',
+      phoneNumber: '0401234567',
+      dateOfBirth: '1990-01-01',
+      status: 'Active' as const,
+    };
+
+    apiServiceMock.put.mockReturnValue(
+      of({
+        data: request,
+        errors: [],
+      }),
+    );
+
+    service.updatePatient(request).subscribe((result) => {
+      expect(result.data.firstName).toBe('Updated');
+    });
+
+    expect(apiServiceMock.put).toHaveBeenCalledWith('patients/1', request);
   });
 
 });

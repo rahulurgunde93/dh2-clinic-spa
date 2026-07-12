@@ -16,6 +16,7 @@ import { ErrorPanel } from '../../../../shared/components/error-panel/error-pane
 import { MatDialog } from '@angular/material/dialog';
 import { PatientDialog } from '../../components/patient-dialog/patient-dialog';
 import { LoadingSpinner } from '../../../../shared/components/loading-spinner/loading-spinner';
+import { Patient } from '../../data-access/models/patient.model';
 
 @Component({
   selector: 'app-patient-list',
@@ -48,6 +49,22 @@ export class PatientList implements OnInit {
       .open(PatientDialog, {
         width: '700px',
         disableClose: true,
+      })
+      .afterClosed()
+      .subscribe((saved) => {
+        if (saved) {
+          this.store.loadPatients();
+        }
+      });
+  }
+  openEditDialog(patient: Patient): void {
+    this.dialog
+      .open(PatientDialog, {
+        width: '700px',
+
+        disableClose: true,
+
+        data: patient,
       })
       .afterClosed()
       .subscribe((saved) => {
