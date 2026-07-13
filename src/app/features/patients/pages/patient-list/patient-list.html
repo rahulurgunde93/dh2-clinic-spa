@@ -4,76 +4,142 @@
 
   <div class="page-content">
 
-    <div class="page-actions">
-      <button mat-flat-button color="primary" (click)="openCreateDialog()">
-        Add Patient
-      </button>
-    </div>
-
     @if (store.loading()) {
 
     <app-loading-spinner></app-loading-spinner>
 
     } @else if (store.error(); as error) {
 
-    <app-error-panel [message]="error.message">
-    </app-error-panel>
+    <app-error-panel [message]="error.message"></app-error-panel>
 
     } @else if (store.hasPatients()) {
+
+    <!-- Toolbar -->
+    <div class="patient-toolbar">
+      <div class="toolbar-actions">
+
+        <button mat-flat-button color="primary" (click)="openCreateDialog()">
+          Add Patient
+        </button>
+
+        <button mat-stroked-button (click)="exportPatients()">
+          Export CSV
+        </button>
+
+      </div>
+      <mat-chip-listbox [multiple]="false" [value]="statusFilter" (change)="setStatusFilter($event.value)">
+        <mat-chip-option value="All">
+          All
+        </mat-chip-option>
+        <mat-chip-option value="Active">
+          Active
+        </mat-chip-option>
+        <mat-chip-option value="Inactive">
+          Inactive
+        </mat-chip-option>
+      </mat-chip-listbox>
+      <mat-form-field appearance="outline" class="patient-filter">
+        <mat-label>Filter patients</mat-label>
+        <input matInput [value]="searchText" (input)="onSearchChanged($any($event.target).value)"
+          placeholder="Search by name or email">
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+    </div>
+
+    @if (hasActiveFilters) {
+    <div class="filter-summary">
+      <span class="filter-text">
+        @if (statusFilter !== 'All') {
+        Status: <strong>{{ statusFilter }}</strong>
+        }
+        @if (searchText.trim()) {
+        Search: <strong>"{{ searchText }}"</strong>
+        }
+      </span>
+      <button mat-button color="primary" (click)="clearFilters()">
+        Clear Filters
+      </button>
+    </div>
+    }
+    <!-- Patient Table -->
 
     <table mat-table [dataSource]="pagedPatients()" matSort (matSortChange)="sortChanged($event)" class="patient-table">
 
       <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header="id">ID</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header="id">
+          ID
+        </th>
+
         <td mat-cell *matCellDef="let patient">
           {{ patient.id }}
         </td>
       </ng-container>
 
       <ng-container matColumnDef="firstName">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header="firstName">First Name</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header="firstName">
+          First Name
+        </th>
+
         <td mat-cell *matCellDef="let patient">
           {{ patient.firstName }}
         </td>
       </ng-container>
 
       <ng-container matColumnDef="lastName">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header="lastName">Last Name</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header="lastName">
+          Last Name
+        </th>
+
         <td mat-cell *matCellDef="let patient">
           {{ patient.lastName }}
         </td>
       </ng-container>
 
       <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <th mat-header-cell *matHeaderCellDef>
+          Actions
+        </th>
+
         <td mat-cell *matCellDef="let patient">
+
           <div class="action-buttons">
+
             <button mat-stroked-button color="primary" [routerLink]="['/patients', patient.id]">
               View
             </button>
+
             <button mat-flat-button color="accent" (click)="openEditDialog(patient)">
               Edit
             </button>
+
             <button mat-flat-button color="warn" [disabled]="store.deleting()" (click)="deletePatient(patient)">
+
               {{ store.deleting() ? 'Deleting...' : 'Delete' }}
+
             </button>
+
           </div>
+
         </td>
       </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns">
+      </tr>
 
       <tr mat-row *matRowDef="let row; columns: displayedColumns;">
       </tr>
 
     </table>
-    <mat-paginator [length]="filteredPatients().length" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 20]"
-      (page)="pageIndex = $event.pageIndex; pageSize = $event.pageSize">
+
+    <mat-paginator [length]="filteredPatients().length" [pageSize]="pageSize" [pageSizeOptions]="[5,10,20]"
+      (page)="onPageChanged($event)">
     </mat-paginator>
 
     } @else {
+
     <app-empty-state message="No patients found.">
     </app-empty-state>
+
     }
 
   </div>
