@@ -64,4 +64,73 @@ describe('ApiService', () => {
 
     request.flush(response);
   });
+
+  it('should perform a PUT request', () => {
+    const requestBody = {
+      id: 1,
+      name: 'Updated Patient',
+    };
+
+    const response = {
+      data: requestBody,
+      errors: [],
+    };
+
+    service
+      .put<typeof requestBody, typeof requestBody>('patients/1', requestBody)
+      .subscribe((result) => {
+        expect(result).toEqual(response);
+      });
+
+    const request = httpTestingController.expectOne('/api/patients/1');
+
+    expect(request.request.method).toBe('PUT');
+    expect(request.request.body).toEqual(requestBody);
+
+    request.flush(response);
+  });
+
+  it('should perform a PATCH request', () => {
+    const requestBody = {
+      status: 'Inactive',
+    };
+
+    const response = {
+      data: {
+        id: 1,
+        status: 'Inactive',
+      },
+      errors: [],
+    };
+
+    service
+      .patch<typeof requestBody, typeof response.data>('patients/1', requestBody)
+      .subscribe((result) => {
+        expect(result).toEqual(response);
+      });
+
+    const request = httpTestingController.expectOne('/api/patients/1');
+
+    expect(request.request.method).toBe('PATCH');
+    expect(request.request.body).toEqual(requestBody);
+
+    request.flush(response);
+  });
+
+  it('should perform a DELETE request', () => {
+    const response = {
+      data: true,
+      errors: [],
+    };
+
+    service.delete<boolean>('patients/1').subscribe((result) => {
+      expect(result).toEqual(response);
+    });
+
+    const request = httpTestingController.expectOne('/api/patients/1');
+
+    expect(request.request.method).toBe('DELETE');
+
+    request.flush(response);
+  });
 });
