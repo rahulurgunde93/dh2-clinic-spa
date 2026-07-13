@@ -1,0 +1,41 @@
+<table mat-table [dataSource]="data" matSort (matSortChange)="sortChanged.emit($event)" class="shared-data-table">
+
+  @for (column of columns; track column.key) {
+
+  <ng-container [matColumnDef]="columnName(column)">
+
+  <th mat-header-cell *matHeaderCellDef [mat-sort-header]="columnName(column)">
+
+      {{ column.header }}
+
+    </th>
+
+    <td mat-cell *matCellDef="let row">
+
+      @if (cellTemplates[columnName(column)]) {
+
+      <ng-container *ngTemplateOutlet="
+            cellTemplates[columnName(column)];
+            context: { $implicit: row }
+          ">
+      </ng-container>
+
+      } @else {
+
+      {{ $any(row)[column.key] }}
+
+      }
+
+    </td>
+
+  </ng-container>
+
+  }
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns">
+  </tr>
+
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+  </tr>
+
+</table>
