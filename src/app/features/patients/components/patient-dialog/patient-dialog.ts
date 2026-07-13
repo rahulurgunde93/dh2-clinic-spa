@@ -13,6 +13,7 @@ import { Patient } from '../../data-access/models/patient.model';
 import { CreatePatientRequest } from '../../data-access/models/create-patient-request.model';
 
 import { UpdatePatientRequest } from '../../data-access/models/update-patient-request.model';
+import { NotificationService } from '../../../../shared/services/notification.service';
 
 @Component({
   selector: 'app-patient-dialog',
@@ -25,6 +26,7 @@ export class PatientDialog {
   private readonly dialogRef = inject(MatDialogRef<PatientDialog>);
 
   private readonly patientApi = inject(PatientApiService);
+  private readonly notification = inject(NotificationService);
 
   readonly patient = inject<Patient | null>(MAT_DIALOG_DATA, {
     optional: true,
@@ -50,10 +52,11 @@ export class PatientDialog {
         next: () => {
           this.saving.set(false);
           this.dialogRef.close(true);
+          this.notification.success('Patient updated successfully.');
         },
         error: (error) => {
           this.saving.set(false);
-          console.error(error);
+          this.notification.error('Unable to update patient.');
         },
       });
 
@@ -68,10 +71,11 @@ export class PatientDialog {
       next: () => {
         this.saving.set(false);
         this.dialogRef.close(true);
+        this.notification.success('Patient created successfully.');
       },
       error: (error) => {
         this.saving.set(false);
-        console.error(error);
+        this.notification.error('Unable to create patient.');
       },
     });
   }

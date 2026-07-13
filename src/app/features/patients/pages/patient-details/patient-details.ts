@@ -10,14 +10,12 @@ import { PageHeader } from '../../../../shared/components/page-header/page-heade
 @Component({
   selector: 'app-patient-details',
   standalone: true,
-  imports: [RouterLink, MatButtonModule,
-    MatCardModule, ErrorPanel, PageHeader],
+  imports: [RouterLink, MatButtonModule, MatCardModule, ErrorPanel, PageHeader],
   templateUrl: './patient-details.html',
   styleUrls: ['./patient-details.scss'],
 })
 export class PatientDetails implements OnInit {
   private readonly route = inject(ActivatedRoute);
-
   readonly store = inject(PatientStore);
 
   ngOnInit(): void {

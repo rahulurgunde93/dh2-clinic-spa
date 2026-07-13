@@ -4,7 +4,7 @@ import { ApplicationError } from '../../../core/models/application-error.model';
 import { Patient } from '../data-access/models/patient.model';
 import { PatientApiService } from '../data-access/services/patient-api.service';
 import { CreatePatientRequest } from '../data-access/models/create-patient-request.model';
-
+import { NotificationService } from '../../../shared/services/notification.service';
 @Injectable({
   providedIn: 'root',
 })
@@ -15,6 +15,7 @@ export class PatientStore {
   private readonly selectedPatientState = signal<Patient | null>(null);
   private readonly loadingState = signal(false);
   private readonly errorState = signal<ApplicationError | null>(null);
+  private readonly notification = inject(NotificationService);
 
   readonly patients = this.patientsState.asReadonly();
   readonly selectedPatient = this.selectedPatientState.asReadonly();
@@ -28,6 +29,7 @@ export class PatientStore {
   loadPatients(): void {
     this.loadingState.set(true);
     this.errorState.set(null);
+    this.notification.success('Patient created successfully.');
 
     this.patientApiService.getPatients().subscribe({
       next: (response) => {
@@ -65,11 +67,14 @@ export class PatientStore {
 
         this.loadingState.set(false);
         this.errorState.set(null);
+
+        this.notification.success('Patient created successfully.');
       },
 
       error: (error) => {
         this.loadingState.set(false);
         this.errorState.set(error);
+        this.notification.error('Unable to create patient.');
       },
     });
   }
@@ -79,12 +84,14 @@ export class PatientStore {
     this.patientApiService.deletePatient(id).subscribe({
       next: () => {
         this.deleting.set(false);
+        this.notification.success('Patient deleted successfully.');
         this.loadPatients();
       },
 
       error: (error) => {
         this.deleting.set(false);
         this.errorState.set(error);
+        this.notification.error('Unable to delete patient.');
       },
     });
   }
