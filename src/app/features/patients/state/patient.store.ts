@@ -29,7 +29,6 @@ export class PatientStore {
   loadPatients(): void {
     this.loadingState.set(true);
     this.errorState.set(null);
-    this.notification.success('Patient created successfully.');
 
     this.patientApiService.getPatients().subscribe({
       next: (response) => {
