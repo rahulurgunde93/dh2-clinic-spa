@@ -11,6 +11,7 @@ describe('PatientStore', () => {
     getPatients: ReturnType<typeof vi.fn>;
     getPatient: ReturnType<typeof vi.fn>;
     createPatient: ReturnType<typeof vi.fn>;
+    deletePatient: ReturnType<typeof vi.fn>;
   };
 
   beforeEach(() => {
@@ -18,6 +19,7 @@ describe('PatientStore', () => {
       getPatients: vi.fn(),
       getPatient: vi.fn(),
       createPatient: vi.fn(),
+      deletePatient: vi.fn(),
     };
 
     TestBed.configureTestingModule({
@@ -142,5 +144,44 @@ describe('PatientStore', () => {
 
     expect(store.hasPatients()).toBe(true);
     expect(store.patients()[0].id).toBe(100);
+  });
+
+  it('should delete patient and reload list', () => {
+    patientApiServiceMock.deletePatient.mockReturnValue(
+      of({
+        data: true,
+        errors: [],
+      }),
+    );
+
+    patientApiServiceMock.getPatients.mockReturnValue(
+      of({
+        data: [],
+        errors: [],
+      }),
+    );
+
+    store.deletePatient(1);
+
+    expect(patientApiServiceMock.deletePatient).toHaveBeenCalledWith(1);
+  });
+  it('should toggle deleting state', () => {
+    patientApiServiceMock.deletePatient.mockReturnValue(
+      of({
+        data: true,
+        errors: [],
+      }),
+    );
+
+    patientApiServiceMock.getPatients.mockReturnValue(
+      of({
+        data: [],
+        errors: [],
+      }),
+    );
+
+    store.deletePatient(1);
+
+    expect(store.deleting()).toBe(false);
   });
 });

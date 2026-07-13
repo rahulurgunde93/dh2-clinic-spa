@@ -47,12 +47,17 @@
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef>Actions</th>
         <td mat-cell *matCellDef="let patient">
-          <button mat-stroked-button color="primary" [routerLink]="['/patients', patient.id]">
-            View Details
-          </button>
-          <button mat-flat-button color="accent" (click)="openEditDialog(patient)">
-            Edit
-          </button>
+          <div class="action-buttons">
+            <button mat-stroked-button color="primary" [routerLink]="['/patients', patient.id]">
+              View
+            </button>
+            <button mat-flat-button color="accent" (click)="openEditDialog(patient)">
+              Edit
+            </button>
+            <button mat-flat-button color="warn" [disabled]="store.deleting()" (click)="deletePatient(patient)">
+              {{ store.deleting() ? 'Deleting...' : 'Delete' }}
+            </button>
+          </div>
         </td>
       </ng-container>
 

@@ -25,11 +25,12 @@ export class PatientApiService {
     return this.apiService.post<CreatePatientRequest, Patient>('patients', request);
   }
 
-  // updatePatient(id: number, request: UpdatePatientRequest): Observable<ApiResponse<Patient>> {
-  //   return this.apiService.put<UpdatePatientRequest, Patient>(`patients/${id}`, request);
-  // }
   updatePatient(request: UpdatePatientRequest): Observable<ApiResponse<Patient>> {
     return this.apiService.put<UpdatePatientRequest, Patient>(`patients/${request.id}`, request);
+  }
+
+  deletePatient(id: number): Observable<ApiResponse<boolean>> {
+    return this.apiService.delete<boolean>(`patients/${id}`);
   }
 }
 

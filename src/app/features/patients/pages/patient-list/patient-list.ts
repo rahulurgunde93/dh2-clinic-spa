@@ -18,6 +18,9 @@ import { PatientDialog } from '../../components/patient-dialog/patient-dialog';
 import { LoadingSpinner } from '../../../../shared/components/loading-spinner/loading-spinner';
 import { Patient } from '../../data-access/models/patient.model';
 
+import { ConfirmationDialog } from '../../../../shared/components/confirmation-dialog/confirmation-dialog';
+import { ConfirmationDialogData } from '../../../../shared/components/confirmation-dialog/confirmation-dialog';
+
 @Component({
   selector: 'app-patient-list',
   standalone: true,
@@ -71,6 +74,27 @@ export class PatientList implements OnInit {
         if (saved) {
           this.store.loadPatients();
         }
+      });
+  }
+  deletePatient(patient: Patient): void {
+    this.dialog
+      .open(ConfirmationDialog, {
+        width: '420px',
+
+        data: <ConfirmationDialogData>{
+          title: 'Delete Patient',
+          message: `Are you sure you want to delete ${patient.firstName} ${patient.lastName}?`,
+          confirmText: 'Delete',
+          cancelText: 'Cancel',
+        },
+      })
+      .afterClosed()
+      .subscribe((confirmed) => {
+        if (!confirmed) {
+          return;
+        }
+
+        this.store.deletePatient(patient.id);
       });
   }
 }

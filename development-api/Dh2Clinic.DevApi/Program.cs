@@ -300,6 +300,36 @@ app.MapPut("/api/patients/{id:int}",
   });
 });
 
+app.MapDelete("/api/patients/{id:int}",
+(int id) =>
+{
+  var patient = patients.FirstOrDefault(x => x.Id == id);
+
+  if (patient is null)
+  {
+    return Results.NotFound(new
+    {
+      Data = (object?)null,
+      Errors = new[]
+        {
+                new
+                {
+                    Code = "NOT_FOUND",
+                    Message = "Patient not found."
+                }
+            }
+    });
+  }
+
+  patients.Remove(patient);
+
+  return Results.Ok(new
+  {
+    Data = true,
+    Errors = Array.Empty<object>()
+  });
+});
+
 app.Run();
 record LoginRequest(string Username, string Password);
 record CreatePatientRequest(string FirstName, string LastName, string Email, string PhoneNumber, string DateOfBirth, string Status);

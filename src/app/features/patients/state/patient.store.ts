@@ -23,6 +23,7 @@ export class PatientStore {
 
   readonly hasPatients = computed(() => this.patients().length > 0);
   readonly hasSelectedPatient = computed(() => this.selectedPatient() !== null);
+  readonly deleting = signal(false);
 
   loadPatients(): void {
     this.loadingState.set(true);
@@ -68,6 +69,21 @@ export class PatientStore {
 
       error: (error) => {
         this.loadingState.set(false);
+        this.errorState.set(error);
+      },
+    });
+  }
+  deletePatient(id: number): void {
+    this.deleting.set(true);
+
+    this.patientApiService.deletePatient(id).subscribe({
+      next: () => {
+        this.deleting.set(false);
+        this.loadPatients();
+      },
+
+      error: (error) => {
+        this.deleting.set(false);
         this.errorState.set(error);
       },
     });
