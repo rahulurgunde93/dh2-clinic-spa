@@ -1,0 +1,22 @@
+<mat-form-field appearance="outline" class="full-width">
+
+  <mat-label>{{ label }}</mat-label>
+
+  <input matInput [matDatepicker]="picker" [formControl]="control" [attr.aria-label]="label">
+
+  <mat-datepicker-toggle matIconSuffix [for]="picker">
+  </mat-datepicker-toggle>
+
+  <mat-datepicker #picker></mat-datepicker>
+
+  @if (control.invalid && control.touched) {
+
+  <mat-error>
+
+    {{ label }} is required.
+
+  </mat-error>
+
+  }
+
+</mat-form-field>
