@@ -1,0 +1,29 @@
+<mat-form-field appearance="outline" class="full-width">
+
+  <mat-label>{{ label }}</mat-label>
+
+  <input matInput [type]="type" [placeholder]="placeholder || label"  [attr.aria-label]="label" [formControl]="control">
+
+  @if (control.invalid && control.touched) {
+
+@if (control.invalid && control.touched) {
+
+  <mat-error>
+
+    @if (control.hasError('required')) {
+
+      {{ label }} is required.
+
+    } @else if (control.hasError('email')) {
+
+      Please enter a valid email address.
+
+    }
+
+  </mat-error>
+
+}
+
+  }
+
+</mat-form-field>
