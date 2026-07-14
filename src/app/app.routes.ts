@@ -42,6 +42,11 @@ export const routes: Routes = [
       },
       {
         path: 'appointments',
+        loadChildren: () =>
+          import('./features/appointments/appointments.routes').then((m) => m.APPOINTMENT_ROUTES),
+      },
+      {
+        path: 'appointments',
         loadComponent: () =>
           import('./features/appointments/pages/appointment-list/appointment-list').then(
             (component) => component.AppointmentList,
