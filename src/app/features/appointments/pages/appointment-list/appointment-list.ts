@@ -21,6 +21,13 @@ import { MatSortModule, Sort } from '@angular/material/sort';
 
 import { CsvExportUtil } from '../../../../shared/utils/csv-export.util';
 
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { AppointmentDialog } from '../../components/appointment-dialog/appointment-dialog';
+
+import { ConfirmationDialog, ConfirmationDialogData } from '../../../../shared/components/confirmation-dialog/confirmation-dialog';
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-appointment-list',
   standalone: true,
@@ -75,20 +82,23 @@ export class AppointmentList implements OnInit, AfterViewInit {
   pageIndex = 0;
   sortColumn: keyof Appointment = 'patientName';
   sortDirection: 'asc' | 'desc' = 'asc';
-  @ViewChild('actionsTemplate', { static: true })
-  actionsTemplate!: TemplateRef<unknown>;
+  @ViewChild('actionsTemplate')
+  actionsTemplate!: TemplateRef<Appointment>;
   cellTemplates: Record<string, TemplateRef<unknown>> = {};
+  private readonly dialog = inject(MatDialog);
+  private readonly snackBar = inject(MatSnackBar);
+  private readonly router = inject(Router);
 
   ngOnInit(): void {
     this.store.loadAppointments();
   }
+
   ngAfterViewInit(): void {
     this.cellTemplates = {
       __actions: this.actionsTemplate,
     };
-    console.log(this.actionsTemplate);
-    console.log(this.cellTemplates);
   }
+
   onSearchChanged(value: string): void {
     this.searchText = value;
   }
@@ -147,5 +157,106 @@ export class AppointmentList implements OnInit, AfterViewInit {
     }));
 
     CsvExportUtil.export('appointments.csv', appointments);
+  }
+
+  openCreateDialog(): void {
+    const dialogRef = this.dialog.open(AppointmentDialog, {
+      width: '650px',
+      disableClose: true,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (!result) {
+        return;
+      }
+
+      this.store.createAppointment(result);
+
+      this.snackBar.open('Appointment created successfully.', 'Close', {
+        duration: 3000,
+        horizontalPosition: 'right',
+        verticalPosition: 'top',
+      });
+
+      this.store.loadAppointments();
+    });
+  }
+
+  viewAppointment(appointment: Appointment): void {
+    this.router.navigate(['/appointments', appointment.id]);
+  }
+
+  editAppointment(appointment: Appointment): void {
+    const dialogRef = this.dialog.open(AppointmentDialog, {
+      width: '650px',
+      disableClose: true,
+      data: appointment,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (!result) {
+        return;
+      }
+
+      this.store.updateAppointment({
+        id: appointment.id,
+        patientId: result.patientId,
+        appointmentDate: result.appointmentDate,
+        status: result.status,
+
+        // keep existing values for fields not edited yet
+        doctorName: appointment.doctorName,
+        durationMinutes: appointment.durationMinutes,
+        notes: appointment.notes,
+      });
+
+      this.snackBar.open('Appointment updated successfully.', 'Close', {
+        duration: 3000,
+        horizontalPosition: 'right',
+        verticalPosition: 'top',
+      });
+
+      this.store.loadAppointments();
+    });
+  }
+
+  deleteAppointment(appointment: Appointment): void {
+    this.dialog
+      .open(ConfirmationDialog, {
+        width: '420px',
+
+        data: <ConfirmationDialogData>{
+          title: 'Delete Appointment',
+          message: `Are you sure you want to delete the appointment for ${appointment.patientName}?`,
+          confirmText: 'Delete',
+          cancelText: 'Cancel',
+        },
+      })
+      .afterClosed()
+      .subscribe((confirmed) => {
+        if (!confirmed) {
+          return;
+        }
+
+        this.store.deleteAppointment(appointment.id);
+
+        // If deleting the last item on the current page,
+        // navigate back one page.
+        const remainingItems = this.filteredAppointments().length - 1;
+
+        const maxPage = Math.max(Math.ceil(remainingItems / this.pageSize) - 1, 0);
+
+        if (this.pageIndex > maxPage) {
+          this.pageIndex = maxPage;
+        }
+
+        this.snackBar.open('Appointment deleted successfully.', 'Close', {
+          duration: 3000,
+          horizontalPosition: 'right',
+          verticalPosition: 'top',
+        });
+
+        this.store.loadAppointments();
+      });
   }
 }

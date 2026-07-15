@@ -1,1 +1,97 @@
-<p>appointment-dialog works!</p>
+<h2 mat-dialog-title>
+
+  {{ appointment ? 'Edit Appointment' : 'Create Appointment' }}
+
+</h2>
+
+<mat-dialog-content>
+
+  <form [formGroup]="form" class="appointment-form">
+
+    <mat-form-field appearance="outline">
+
+      <mat-label>Patient</mat-label>
+
+      <mat-select formControlName="patientId">
+
+        @for (patient of patients; track patient.id) {
+
+        <mat-option [value]="patient.id">
+
+          {{ patient.firstName }}
+          {{ patient.lastName }}
+
+        </mat-option>
+
+        }
+
+      </mat-select>
+
+      <mat-error>
+
+        Patient is required.
+
+      </mat-error>
+
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+
+      <mat-label>Appointment Date</mat-label>
+
+      <input matInput [matDatepicker]="picker" formControlName="appointmentDate">
+
+      <mat-datepicker-toggle matIconSuffix [for]="picker">
+      </mat-datepicker-toggle>
+
+      <mat-datepicker #picker></mat-datepicker>
+
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+
+      <mat-label>Status</mat-label>
+
+      <mat-select formControlName="status">
+
+        <mat-option value="Scheduled">
+
+          Scheduled
+
+        </mat-option>
+
+        <mat-option value="Completed">
+
+          Completed
+
+        </mat-option>
+
+        <mat-option value="Cancelled">
+
+          Cancelled
+
+        </mat-option>
+
+      </mat-select>
+
+    </mat-form-field>
+
+  </form>
+
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+
+  <button mat-button (click)="cancel()">
+
+    Cancel
+
+  </button>
+
+<button mat-flat-button color="primary" (click)="save()" [disabled]="form.invalid || !form.dirty || saving">
+
+  {{ saving ? 'Saving...' : 'Save' }}
+
+</button>
+
+</mat-dialog-actions>

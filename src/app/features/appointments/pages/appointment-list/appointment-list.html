@@ -18,7 +18,7 @@
 
       <div class="appointment-toolbar">
 
-      <button mat-flat-button color="primary">
+      <button mat-flat-button color="primary" (click)="openCreateDialog()">
         Add Appointment
       </button>
 
@@ -66,29 +66,9 @@
 
     <!-- Data Table -->
 
-<app-data-table [data]="pagedAppointments()" [columns]="columns" [cellTemplates]="cellTemplates"
-  (sortChanged)="sortChanged($event)">
+<app-data-table [data]="pagedAppointments()" [columns]="columns" (sortChanged)="sortChanged($event)"
+  (view)="viewAppointment($event)" (edit)="editAppointment($event)" (delete)="deleteAppointment($event)">
 </app-data-table>
-
-<ng-template #actionsTemplate let-appointment>
-
-  <div class="action-buttons">
-
-    <button mat-stroked-button color="primary">
-      View
-    </button>
-
-    <button mat-flat-button color="accent">
-      Edit
-    </button>
-
-    <button mat-flat-button color="warn">
-      Delete
-    </button>
-
-  </div>
-
-</ng-template>
 
 <mat-paginator [length]="filteredAppointments().length" [pageSize]="pageSize" [pageSizeOptions]="[5,10,20]"
   (page)="onPageChanged($event)">
@@ -104,3 +84,25 @@
   </div>
 
 </section>
+
+<ng-template #actionsTemplate let-appointment>
+
+  <div class="action-buttons">
+
+    <button mat-stroked-button color="primary" (click)="viewAppointment(appointment)">
+      View
+    </button>
+
+    <button mat-flat-button color="primary" (click)="editAppointment(appointment)">
+      Edit
+    </button>
+
+    <button mat-flat-button color="warn" [disabled]="store.deleting()" (click)="deleteAppointment(appointment)">
+
+      {{ store.deleting() ? 'Deleting...' : 'Delete' }}
+
+    </button>
+
+  </div>
+
+</ng-template>
