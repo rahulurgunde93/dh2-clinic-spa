@@ -38,6 +38,34 @@ var patients = new List<PatientDto>
     }
 };
 
+var appointments = new List<AppointmentDto>
+{
+    new()
+    {
+        Id = 1,
+        PatientId = 1,
+        PatientName = "Matti Virtanen",
+        AppointmentDate = "2026-07-15 09:00",
+        Status = "Scheduled"
+    },
+    new()
+    {
+        Id = 2,
+        PatientId = 2,
+        PatientName = "Anna Korhonen",
+        AppointmentDate = "2026-07-15 10:00",
+        Status = "Completed"
+    },
+    new()
+    {
+        Id = 3,
+        PatientId = 3,
+        PatientName = "Erik Johansson",
+        AppointmentDate = "2026-07-16 14:30",
+        Status = "Cancelled"
+    }
+};
+
 app.MapGet("/api/patients", () =>
 {
   return Results.Ok(new
@@ -76,34 +104,6 @@ app.MapGet("/api/patients/{id:int}", (int id) =>
 
 app.MapGet("/api/appointments", () =>
 {
-  var appointments = new[]
-  {
-        new
-        {
-            Id = 1,
-            PatientId = 1,
-            PatientName = "Matti Virtanen",
-            AppointmentDate = "2026-07-15 09:00",
-            Status = "Scheduled"
-        },
-        new
-        {
-            Id = 2,
-            PatientId = 2,
-            PatientName = "Anna Korhonen",
-            AppointmentDate = "2026-07-15 10:00",
-            Status = "Completed"
-        },
-        new
-        {
-            Id = 3,
-            PatientId = 3,
-            PatientName = "Erik Johansson",
-            AppointmentDate = "2026-07-16 14:30",
-            Status = "Cancelled"
-        }
-    };
-
   return Results.Ok(new
   {
     Data = appointments,
@@ -113,34 +113,6 @@ app.MapGet("/api/appointments", () =>
 
 app.MapGet("/api/appointments/{id:int}", (int id) =>
 {
-  var appointments = new[]
-  {
-        new
-        {
-            Id = 1,
-            PatientId = 1,
-            PatientName = "Matti Virtanen",
-            AppointmentDate = "2026-07-15 09:00",
-            Status = "Scheduled"
-        },
-        new
-        {
-            Id = 2,
-            PatientId = 2,
-            PatientName = "Anna Korhonen",
-            AppointmentDate = "2026-07-15 10:00",
-            Status = "Completed"
-        },
-        new
-        {
-            Id = 3,
-            PatientId = 3,
-            PatientName = "Erik Johansson",
-            AppointmentDate = "2026-07-16 14:30",
-            Status = "Cancelled"
-        }
-    };
-
   var appointment = appointments.FirstOrDefault(a => a.Id == id);
 
   if (appointment is null)
@@ -152,8 +124,8 @@ app.MapGet("/api/appointments/{id:int}", (int id) =>
         {
                 new
                 {
-                    Code = "APPOINTMENT_NOT_FOUND",
-                    Message = $"Appointment with id {id} was not found."
+                    Code = "NOT_FOUND",
+                    Message = $"Appointment not found."
                 }
             }
     });
@@ -276,6 +248,45 @@ app.MapPost("/api/patients",
   });
 });
 
+app.MapPost("/api/appointments",
+(CreateAppointmentRequest request) =>
+{
+  var patient = patients.FirstOrDefault(p => p.Id == request.PatientId);
+
+  if (patient is null)
+  {
+    return Results.BadRequest(new
+    {
+      Data = (object?)null,
+      Errors = new[]
+        {
+                new
+                {
+                    Code = "PATIENT_NOT_FOUND",
+                    Message = "Patient not found."
+                }
+            }
+    });
+  }
+
+  var appointment = new AppointmentDto
+  {
+    Id = appointments.Max(a => a.Id) + 1,
+    PatientId = request.PatientId,
+    PatientName = $"{patient.FirstName} {patient.LastName}",
+    AppointmentDate = request.AppointmentDate.ToString("yyyy-MM-dd HH:mm"),
+    Status = request.Status
+  };
+
+  appointments.Add(appointment);
+
+  return Results.Ok(new
+  {
+    Data = appointment,
+    Errors = Array.Empty<object>()
+  });
+});
+
 app.MapPut("/api/patients/{id:int}",
 (int id, UpdatePatientRequest request) =>
 {
@@ -296,6 +307,46 @@ app.MapPut("/api/patients/{id:int}",
   return Results.Ok(new
   {
     Data = patient,
+    Errors = Array.Empty<object>()
+  });
+});
+
+app.MapPut("/api/appointments/{id:int}",
+(int id, UpdateAppointmentRequest request) =>
+{
+  var appointment = appointments.FirstOrDefault(a => a.Id == id);
+
+  if (appointment is null)
+  {
+    return Results.NotFound();
+  }
+
+  var patient = patients.FirstOrDefault(p => p.Id == request.PatientId);
+
+  if (patient is null)
+  {
+    return Results.BadRequest(new
+    {
+      Data = (object?)null,
+      Errors = new[]
+        {
+                new
+                {
+                    Code = "PATIENT_NOT_FOUND",
+                    Message = "Patient not found."
+                }
+            }
+    });
+  }
+
+  appointment.PatientId = request.PatientId;
+  appointment.PatientName = $"{patient.FirstName} {patient.LastName}";
+  appointment.AppointmentDate = request.AppointmentDate.ToString("yyyy-MM-dd HH:mm");
+  appointment.Status = request.Status;
+
+  return Results.Ok(new
+  {
+    Data = appointment,
     Errors = Array.Empty<object>()
   });
 });
@@ -330,6 +381,36 @@ app.MapDelete("/api/patients/{id:int}",
   });
 });
 
+app.MapDelete("/api/appointments/{id:int}",
+(int id) =>
+{
+  var appointment = appointments.FirstOrDefault(a => a.Id == id);
+
+  if (appointment is null)
+  {
+    return Results.NotFound(new
+    {
+      Data = (object?)null,
+      Errors = new[]
+        {
+                new
+                {
+                    Code = "NOT_FOUND",
+                    Message = "Appointment not found."
+                }
+            }
+    });
+  }
+
+  appointments.Remove(appointment);
+
+  return Results.Ok(new
+  {
+    Data = true,
+    Errors = Array.Empty<object>()
+  });
+});
+
 app.Run();
 record LoginRequest(string Username, string Password);
 record CreatePatientRequest(string FirstName, string LastName, string Email, string PhoneNumber, string DateOfBirth, string Status);
@@ -343,4 +424,22 @@ record PatientDto
   public string PhoneNumber { get; set; } = string.Empty;
   public string DateOfBirth { get; set; } = string.Empty;
   public string Status { get; set; } = "Active";
+}
+
+record CreateAppointmentRequest(
+    int PatientId,
+    DateTime AppointmentDate,
+    string Status);
+record UpdateAppointmentRequest(
+    int Id,
+    int PatientId,
+    DateTime AppointmentDate,
+    string Status);
+record AppointmentDto
+{
+  public int Id { get; set; }
+  public int PatientId { get; set; }
+  public string PatientName { get; set; } = string.Empty;
+  public string AppointmentDate { get; set; } = string.Empty;
+  public string Status { get; set; } = string.Empty;
 }

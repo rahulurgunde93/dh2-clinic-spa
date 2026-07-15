@@ -130,14 +130,32 @@ src/app/core/auth/ and inside this
 
 
 Thanks all good till Story-7 all 14 tests passed.
-now help me with commit, push and PR? give me PR message and description for story-7 so you can do code review and then we will start with story-8
+
+Now help me with PR message and description to commit, push and PR? and also give me details for my manual documentation for story-18 so you can do code review and then we will start with story-19
 
 
 
 
+//story16 task17
+ng generate component shared/components/search-box --standalone --skip-tests=false
 
 
+Sprint-4 story 18.2
+ng generate component features/patients/components/patient-form --standalone --skip-tests=false
+ng generate component features/patients/components/patient-dialog --standalone --skip-tests=false
+ng generate component shared/components/confirmation-dialog --standalone --skip-tests=false
 
+//story 19
+git checkout -b feature/story19-Edit-Patient
+
+
+Thanks all good till Story-20 
+Now help me with PR message and description to commit, push and PR? and also give me details for my manual documentation for story-18 so you can do code review and then we will start with story-19
+
+
+//Story 21 User Notifications (Angular Material SnackBar)
+
+npm list @angular/material
 
 
 
@@ -149,3 +167,104 @@ now help me with commit, push and PR? give me PR message and description for sto
     "changeOrigin": true
   }
 }
+
+
+
+
+For each Sprint, I'll provide:
+
+Sprint planning (goal, architecture, backlog)
+Story breakdown (like a real Azure DevOps backlog)
+Implementation step-by-step with exact files to modify
+Architecture review explaining why we're doing it this way
+Code review after each story
+PR message, documentation, KT material, and demo guidance
+
+========================
+
+Sprint 4 Theme
+Enterprise Shared UI Infrastructure
+
+Story 24
+Reusable Smart Data Table
+step-1
+ng generate component shared/components/data-table --standalone --skip-tests
+
+story 25
+Shared Form Controls Library
+ng generate component shared/components/form-controls/text-field --standalone --skip-tests
+ng generate component shared/components/form-controls/phone-field --standalone --skip-tests
+ng generate component shared/components/form-controls/date-field --standalone --skip-tests
+ng generate component shared/components/form-controls/select-field --standalone --skip-tests
+
+story 26
+git checkout -b feature/sprint4-story26-appointment-module-CRUD
+
+ng generate component features/appointments/pages/appointment-list --standalone --skip-tests	--already exist
+ng generate component features/appointments/pages/appointment-details --standalone --skip-tests	--already exist
+ng generate component features/appointments/components/appointment-dialog --standalone --skip-tests
+
+ng generate component features/appointments/components/appointment-dialog --standalone --skip-tests
+
+Build ✔
+26 Test Files ✔
+65 Tests ✔
+
+
+Proposed Sprint 4 roadmap:
+
+Story 24 – Shared DataTable Foundation ✅
+Story 25 – Shared Form Controls Foundation ✅
+Story 26 – Appointment Module (CRUD)
+Story 27 – Dashboard & Navigation
+Story 28 – Authentication & Route Guards
+Story 29 – API Integration Improvements
+Story 30 – Production Readiness (Error Handling, Logging, Accessibility, Localization)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+angular 21
+vitest
+ng
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

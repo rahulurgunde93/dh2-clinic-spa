@@ -70,11 +70,9 @@ export class AppointmentStore {
     this.loadingState.set(true);
 
     this.appointmentApiService.createAppointment(request).subscribe({
-      next: (response) => {
-        this.appointmentsState.update((appointments) => [...appointments, response.data]);
-
+      next: () => {
         this.loadingState.set(false);
-        this.errorState.set(null);
+        this.loadAppointments();
       },
 
       error: (error: ApplicationError) => {

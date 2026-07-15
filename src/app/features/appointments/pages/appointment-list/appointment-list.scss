@@ -34,6 +34,7 @@ mat-paginator {
 }
 
 .action-buttons {
-  display: flex;
-  gap: 0.5rem;
+    display: flex;
+    gap: .5rem;
+    align-items: center;
 }

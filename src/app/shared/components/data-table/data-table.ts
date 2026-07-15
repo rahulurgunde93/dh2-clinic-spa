@@ -1,12 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, TemplateRef } from '@angular/core';
+import { Component, Input, TemplateRef, Output, EventEmitter } from '@angular/core';
 
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { Sort, MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 
 import { DataTableColumn } from './models/data-table-column.model';
-import { Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-data-table',
@@ -28,10 +27,19 @@ export class DataTable<T extends object> {
   @Output()
   sortChanged = new EventEmitter<Sort>();
 
+  @Output()
+  view = new EventEmitter<T>();
+
+  @Output()
+  edit = new EventEmitter<T>();
+
+  @Output()
+  delete = new EventEmitter<T>();
+
   get displayedColumns(): string[] {
     return this.columns.map((column) => String(column.key));
   }
   columnName(column: DataTableColumn<T>): string {
-    return String(column.key);
+    return column.key.toString();
   }
 }
