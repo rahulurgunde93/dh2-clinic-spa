@@ -4,13 +4,13 @@ import { Component, Input, TemplateRef, Output, EventEmitter } from '@angular/co
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { Sort, MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
-
+import { MatButtonModule } from '@angular/material/button';
 import { DataTableColumn } from './models/data-table-column.model';
 
 @Component({
   selector: 'app-data-table',
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatPaginatorModule, MatSortModule],
+  imports: [CommonModule, MatTableModule, MatPaginatorModule, MatSortModule, MatButtonModule],
   templateUrl: './data-table.html',
   styleUrls: ['./data-table.scss'],
 })

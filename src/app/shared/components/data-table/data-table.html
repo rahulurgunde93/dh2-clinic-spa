@@ -16,16 +16,25 @@
 
       <td mat-cell *matCellDef="let row">
         @if (column.key === '__actions') {
-        <button mat-stroked-button color="primary" (click)="view.emit(row)">
-          View
-        </button>
-        <button mat-flat-button color="primary" (click)="edit.emit(row)">
-          Edit
-        </button>
-        <button mat-flat-button color="warn" (click)="delete.emit(row)">
-          Delete
-        </button>
-        } @else {
+
+        <div class="action-buttons">
+
+          <button mat-stroked-button color="primary" (click)="view.emit(row)">
+            View
+          </button>
+
+          <button mat-flat-button color="primary" (click)="edit.emit(row)">
+            Edit
+          </button>
+
+          <button mat-flat-button color="warn" (click)="delete.emit(row)">
+            Delete
+          </button>
+
+        </div>
+
+        }
+         @else {
         {{ $any(row)[column.key] }}
         }
       </td>

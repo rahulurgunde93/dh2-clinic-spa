@@ -27,6 +27,7 @@ import { AppointmentDialog } from '../../components/appointment-dialog/appointme
 
 import { ConfirmationDialog, ConfirmationDialogData } from '../../../../shared/components/confirmation-dialog/confirmation-dialog';
 import { Router } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-appointment-list',
@@ -44,6 +45,7 @@ import { Router } from '@angular/router';
     MatChipsModule,
     MatPaginatorModule,
     MatSortModule,
+    MatButtonModule,
   ],
   templateUrl: './appointment-list.html',
   styleUrls: ['./appointment-list.scss'],
