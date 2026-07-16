@@ -95,11 +95,13 @@ export class AppointmentList implements OnInit, AfterViewInit {
     this.store.loadAppointments();
   }
 
+
   ngAfterViewInit(): void {
     this.cellTemplates = {
       __actions: this.actionsTemplate,
     };
   }
+
 
   onSearchChanged(value: string): void {
     this.searchText = value;
