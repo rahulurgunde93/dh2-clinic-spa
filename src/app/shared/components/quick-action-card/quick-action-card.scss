@@ -1,0 +1,22 @@
+.quick-action-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.quick-action-card {
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 12px;
+
+  padding: 24px;
+
+  transition: .2s ease;
+}
+
+.quick-action-card:hover {
+  transform: translateY(-2px);
+}

@@ -1,4 +1,40 @@
-<section>
-  <h1>Dashboard</h1>
-  <p>Welcome to DH2 Clinic SPA.</p>
+<section class="page-layout">
+
+  <app-page-header title="Dashboard" subtitle="Overview of your clinic">
+  </app-page-header>
+
+  <div class="dashboard-grid">
+
+    @for (stat of statistics; track stat.title) {
+
+    <app-dashboard-card [title]="stat.title" [value]="stat.value.toString()" [icon]="stat.icon">
+    </app-dashboard-card>
+
+    }
+
+  </div>
+
+  <section class="quick-actions">
+
+    <h2>Quick Actions</h2>
+
+    <div class="quick-actions-grid">
+
+      @for (action of quickActions; track action.title) {
+
+      <app-quick-action-card [title]="action.title" [icon]="action.icon" [route]="action.route">
+      </app-quick-action-card>
+
+      }
+
+    </div>
+
+  </section>
+  <section class="recent-activity-section">
+
+    <app-recent-activity [activities]="recentActivities">
+    </app-recent-activity>
+
+  </section>
+
 </section>

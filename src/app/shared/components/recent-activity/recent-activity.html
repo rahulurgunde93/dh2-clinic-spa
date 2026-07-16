@@ -1,0 +1,41 @@
+<mat-card>
+
+  <mat-card-header>
+
+    <mat-card-title>
+      Recent Activity
+    </mat-card-title>
+
+  </mat-card-header>
+
+  <mat-card-content>
+
+    <section aria-label="Recent activity">
+
+      @for (activity of activities; track activity.timestamp) {
+
+      <div class="activity-item">
+
+        <mat-icon>
+          {{ activity.icon }}
+        </mat-icon>
+
+        <div>
+
+          <strong>{{ activity.title }}</strong>
+
+          <p>{{ activity.description }}</p>
+
+          <small>{{ activity.timestamp }}</small>
+
+        </div>
+
+      </div>
+
+      }
+
+    </section>
+
+  </mat-card-content>
+
+</mat-card>

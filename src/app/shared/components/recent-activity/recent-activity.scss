@@ -1,0 +1,25 @@
+.activity-item {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+
+  padding: 16px 0;
+
+  border-bottom: 1px solid #eee;
+}
+
+.activity-item:last-child {
+  border-bottom: none;
+}
+
+mat-icon {
+  color: #1976d2;
+}
+
+p {
+  margin: 4px 0;
+}
+
+small {
+  color: #777;
+}
