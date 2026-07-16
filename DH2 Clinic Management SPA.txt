@@ -206,6 +206,48 @@ ng generate component features/appointments/components/appointment-dialog --stan
 
 ng generate component features/appointments/components/appointment-dialog --standalone --skip-tests
 
+
+ Test Files  27 passed (27)
+      Tests  66 passed (66)
+	  
+As I understood this is our PR-2. so accordingly give me these bellow things including both PR's as final story-26,
+PR title, message and descriptions to commit, push and PR? and also give me details implementaed for my manual documentation, script material for demo and KT for story-26 so you can do code review and then we will start with story-27.
+
+
+============================================
+Sprint 5
+
+Continue with Sprint 5 story 27 implementation with new branching and aligned with existing DH2 API and blazor application(already attached here all projects .csproj files) and with angular architecural flow and roadmap. please let me know whenever you required existing code from Angular or DH2 app for investigation and implement exact code flow. 
+-while implement if you forgot/unaware what existing code chnages are there to replace then ask me to paste related files and structure without giving code blindly to avoid unwanted errors.
+
+after complete each story help me with bellow 
+-commit message  -PR title, discriptions, comment
+-personal documentation details 
+-PPT, KT, demo scripts, code review, outcomes...
+-explaining which new technology/tool/feature/logic/concepts used for implementation and why and how it will help me with to track my understanding of implemented things. sprint and story wise.
+
+Story-27
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Build ✔
 26 Test Files ✔
 65 Tests ✔
@@ -223,8 +265,12 @@ Story 30 – Production Readiness (Error Handling, Logging, Accessibility, Local
 
 
 
+UI Polish TODO
 
-
+-Investigate floating label clipping in Patient Create/Edit dialog.
+-Adjust Material form-field spacing to improve validation layout.
+-Align with final DH2 design system once Storybook/UI library is finalized.
+-
 
 
 
