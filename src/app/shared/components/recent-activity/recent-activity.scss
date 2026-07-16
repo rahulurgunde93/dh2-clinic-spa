@@ -1,25 +1,32 @@
 .activity-item {
   display: flex;
-  gap: 16px;
   align-items: flex-start;
-
+  gap: 16px;
   padding: 16px 0;
-
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #ececec;
 }
 
 .activity-item:last-child {
   border-bottom: none;
 }
 
-mat-icon {
-  color: #1976d2;
+.activity-item mat-icon {
+  color: var(--mat-sys-primary);
+  margin-top: 2px;
 }
 
-p {
-  margin: 4px 0;
+.activity-item strong {
+  display: block;
+  margin-bottom: 4px;
 }
 
-small {
-  color: #777;
+.activity-item p {
+  margin: 0;
+  color: #666;
+}
+
+.activity-item small {
+  display: block;
+  margin-top: 6px;
+  color: #999;
 }

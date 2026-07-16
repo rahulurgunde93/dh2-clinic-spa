@@ -14,4 +14,5 @@ export class DashboardCard {
   @Input({ required: true }) title = '';
   @Input({ required: true }) value = '';
   @Input() icon = 'info';
+  @Input() route = '';
 }
