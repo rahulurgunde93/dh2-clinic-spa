@@ -1,9 +1,5 @@
 <section class="page-layout">
 
-  <button mat-stroked-button routerLink="/patients">
-    ← Back to Patients
-  </button>
-
   <app-page-header title="Patient Details"></app-page-header>
 
 <div class="page-content">
@@ -48,7 +44,18 @@
     </mat-card-content>
 
   </mat-card>
+  <mat-card-actions>
 
+    <button
+      mat-stroked-button
+      routerLink="/patients"
+      class="back-button">
+
+      ← Back to Patients
+
+    </button>
+
+  </mat-card-actions>
   }
 
 </div>

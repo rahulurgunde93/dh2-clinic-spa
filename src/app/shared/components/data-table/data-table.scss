@@ -1,3 +1,13 @@
 .shared-data-table {
   width: 100%;
 }
+.action-buttons {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.action-buttons button {
+  min-width: 72px;
+}

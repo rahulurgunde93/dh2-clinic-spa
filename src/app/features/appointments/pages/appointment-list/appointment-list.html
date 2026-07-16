@@ -15,55 +15,55 @@
     </app-error-panel>
 
     } @else if (store.hasAppointments()) {
-
       <div class="appointment-toolbar">
 
-      <button mat-flat-button color="primary" (click)="openCreateDialog()">
-        Add Appointment
-      </button>
+        <div class="toolbar-actions">
 
-      <button mat-stroked-button (click)="exportAppointments()">
-        Export CSV
-      </button>
+          <button mat-flat-button color="primary" (click)="openCreateDialog()">
+            Add Appointment
+          </button>
+
+          <button mat-stroked-button (click)="exportAppointments()">
+            Export CSV
+          </button>
+
+        </div>
+
+        <mat-chip-listbox [multiple]="false" [value]="statusFilter" (change)="setStatusFilter($event.value)">
+
+          <mat-chip-option value="All">
+            All
+          </mat-chip-option>
+
+          <mat-chip-option value="Scheduled">
+            Scheduled
+          </mat-chip-option>
+
+          <mat-chip-option value="Completed">
+            Completed
+          </mat-chip-option>
+
+          <mat-chip-option value="Cancelled">
+            Cancelled
+          </mat-chip-option>
+
+        </mat-chip-listbox>
+
+        <mat-form-field appearance="outline" class="appointment-search">
+
+          <mat-label>
+            Filter appointments
+          </mat-label>
+
+          <input matInput [value]="searchText" (input)="onSearchChanged($any($event.target).value)" placeholder="Search by patient or status">
+
+          <mat-icon matSuffix>
+            search
+          </mat-icon>
+
+        </mat-form-field>
 
       </div>
-    <!-- Search -->
-    <mat-form-field appearance="outline" class="appointment-search">
-
-      <mat-label>Search appointments</mat-label>
-
-      <input matInput [value]="searchText" (input)="onSearchChanged($any($event.target).value)"
-        placeholder="Search by patient or status">
-
-      <mat-icon matSuffix>
-        search
-      </mat-icon>
-
-    </mat-form-field>
-
-    <!-- Status Filter -->
-
-    <mat-chip-listbox class="appointment-filter" [multiple]="false" [value]="statusFilter"
-      (change)="setStatusFilter($event.value)">
-
-      <mat-chip-option value="All">
-        All
-      </mat-chip-option>
-
-      <mat-chip-option value="Scheduled">
-        Scheduled
-      </mat-chip-option>
-
-      <mat-chip-option value="Completed">
-        Completed
-      </mat-chip-option>
-
-      <mat-chip-option value="Cancelled">
-        Cancelled
-      </mat-chip-option>
-
-    </mat-chip-listbox>
-
     <!-- Data Table -->
 
 <app-data-table [data]="pagedAppointments()" [columns]="columns" (sortChanged)="sortChanged($event)"
