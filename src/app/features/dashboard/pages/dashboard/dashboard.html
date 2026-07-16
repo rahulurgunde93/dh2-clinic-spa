@@ -1,40 +1,73 @@
 <section class="page-layout">
 
-  <app-page-header title="Dashboard" subtitle="Overview of your clinic">
-  </app-page-header>
+<app-page-header title="Dashboard" subtitle="Overview of your clinic">
+</app-page-header>
 
-  <div class="dashboard-grid">
+  <div class="page-content">
 
-    @for (stat of statistics; track stat.title) {
+    @if (store.loading()) {
 
-    <app-dashboard-card [title]="stat.title" [value]="stat.value.toString()" [icon]="stat.icon">
-    </app-dashboard-card>
+    <app-loading-spinner></app-loading-spinner>
 
-    }
+    } @else if (store.error(); as error) {
 
-  </div>
+    <app-error-panel [message]="error.message">
+    </app-error-panel>
 
-  <section class="quick-actions">
+    } @else {
 
-    <h2>Quick Actions</h2>
+    <div class="dashboard-grid">
 
-    <div class="quick-actions-grid">
+      @for (stat of store.statistics(); track stat.title) {
 
-      @for (action of quickActions; track action.title) {
-
-      <app-quick-action-card [title]="action.title" [icon]="action.icon" [route]="action.route">
-      </app-quick-action-card>
+      <app-dashboard-card [title]="stat.title" [value]="stat.value.toString()" [icon]="stat.icon">
+      </app-dashboard-card>
 
       }
 
     </div>
 
-  </section>
-  <section class="recent-activity-section">
+    <section class="quick-actions" aria-labelledby="quick-actions-heading">
 
-    <app-recent-activity [activities]="recentActivities">
-    </app-recent-activity>
+      <h2 id="quick-actions-heading">
+        Quick Actions
+      </h2>
 
-  </section>
+      <div class="quick-actions-grid">
+
+        @for (action of quickActions; track action.title) {
+
+        <app-quick-action-card [title]="action.title" [icon]="action.icon" [route]="action.route">
+        </app-quick-action-card>
+
+        }
+
+      </div>
+
+    </section>
+
+    <section class="recent-activity-section" aria-labelledby="recent-activity-heading">
+
+      <h2 id="recent-activity-heading" class="visually-hidden">
+        Recent Activity
+      </h2>
+
+      @if (store.hasActivities()) {
+
+      <app-recent-activity [activities]="store.activities()">
+      </app-recent-activity>
+
+      } @else {
+
+      <app-empty-state message="No recent activity available.">
+      </app-empty-state>
+
+      }
+
+    </section>
+
+    }
+
+  </div>
 
 </section>
