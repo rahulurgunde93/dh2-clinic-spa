@@ -1,0 +1,22 @@
+<section class="page-layout">
+
+  <app-page-header title="Administration" subtitle="Manage application configuration">
+  </app-page-header>
+
+  <div class="page-content">
+
+    <div class="administration-grid">
+
+      @for (module of administrationModules; track module.title) {
+
+      <app-admin-card [title]="module.title" [description]="module.description" [icon]="module.icon"
+        [route]="module.route">
+      </app-admin-card>
+
+      }
+
+    </div>
+
+  </div>
+
+</section>

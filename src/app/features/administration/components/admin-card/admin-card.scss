@@ -1,0 +1,36 @@
+.admin-card-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.admin-card {
+  cursor: pointer;
+  transition: transform .2s ease, box-shadow .2s ease;
+  height: 100%;
+}
+
+.admin-card:hover {
+  transform: translateY(-2px);
+}
+
+.admin-card-header {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+mat-icon {
+  font-size: 32px;
+  width: 32px;
+  height: 32px;
+  color: var(--mat-sys-primary);
+}
+
+h3 {
+  margin: 0 0 6px;
+}
+
+p {
+  margin: 0;
+  color: #666;
+}
