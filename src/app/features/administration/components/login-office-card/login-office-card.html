@@ -1,0 +1,51 @@
+<mat-card class="office-card">
+
+  <mat-card-content>
+
+    <div class="office-header">
+
+      <mat-icon>business</mat-icon>
+
+      <div>
+
+        <h3>{{ office.name }}</h3>
+
+        <small>{{ office.code }}</small>
+
+      </div>
+
+    </div>
+
+    <div class="office-details">
+
+      <p>
+
+        <strong>City:</strong>
+
+        {{ office.city }}
+
+      </p>
+
+      <span class="status-badge" [class.active]="office.status === 'Active'"
+        [class.inactive]="office.status === 'Inactive'">
+
+        {{ office.status }}
+
+      </span>
+
+    </div>
+
+    <div class="office-actions">
+
+      <button mat-button (click)="edit.emit(office)">
+        Edit
+      </button>
+
+      <button mat-button color="warn" (click)="delete.emit(office)">
+        Delete
+      </button>
+
+    </div>
+  </mat-card-content>
+
+</mat-card>

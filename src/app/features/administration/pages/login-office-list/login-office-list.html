@@ -1,0 +1,48 @@
+<section class="page-layout">
+
+  <app-page-header title="Login Offices" subtitle="Manage clinic login offices">
+  </app-page-header>
+  <div class="page-actions">
+
+    <button mat-flat-button color="primary" (click)="openCreateDialog()">
+
+      <mat-icon>add</mat-icon>
+
+      New Login Office
+
+    </button>
+
+  </div>
+  <div class="page-content">
+
+    @if (store.loading()) {
+
+    <app-loading-spinner />
+
+    } @else if (store.error(); as error) {
+
+    <app-error-panel [message]="error.message" />
+
+    } @else if (!store.hasLoginOffices()) {
+
+    <app-empty-state message="No login offices are available. Create one to get started.">
+    </app-empty-state>
+
+    } @else {
+
+    <div class="office-grid">
+
+      @for (office of store.loginOffices(); track office.id) {
+
+        <app-login-office-card [office]="office" (edit)="openEditDialog($event)" (delete)="deleteLoginOffice($event)">
+        </app-login-office-card>
+
+      }
+
+    </div>
+
+    }
+
+  </div>
+
+</section>
