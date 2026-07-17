@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 
 import { AdministrationHome } from './administration-home';
 
@@ -8,13 +9,13 @@ describe('AdministrationHome', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AdministrationHome]
-    })
-    .compileComponents();
+      providers: [provideRouter([])],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(AdministrationHome);
     component = fixture.componentInstance;
-    await fixture.whenStable();
+
+    fixture.detectChanges();
   });
 
   it('should create', () => {
