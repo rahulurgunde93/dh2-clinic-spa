@@ -42,9 +42,9 @@ export class Dashboard implements OnInit {
       route: '/appointments',
     },
     {
-      title: 'Settings',
-      icon: 'settings',
-      route: '/settings',
+      title: 'Administration',
+      icon: 'admin_panel_settings',
+      route: '/administration',
     },
   ];
 

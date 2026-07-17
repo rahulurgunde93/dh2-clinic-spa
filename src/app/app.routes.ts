@@ -27,6 +27,13 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'administration',
+        loadChildren: () =>
+          import('./features/administration/administration.routes').then(
+            (component) => component.ADMINISTRATION_ROUTES,
+          ),
+      },
+      {
         path: 'patients',
         loadComponent: () =>
           import('./features/patients/pages/patient-list/patient-list').then(
