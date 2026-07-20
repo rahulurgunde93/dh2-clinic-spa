@@ -195,4 +195,64 @@ describe('LoginOfficeStore', () => {
     expect(store.error()).toBe(error);
     expect(store.loading()).toBe(false);
   });
+
+  it('should filter login offices by name', () => {
+    apiMock.getLoginOffices.mockReturnValue(
+      of({
+        data: offices,
+        errors: [],
+      }),
+    );
+
+    store.loadLoginOffices();
+
+    store.setSearchTerm('helsinki');
+
+    expect(store.filteredLoginOffices()).toEqual([offices[0]]);
+  });
+
+  it('should filter login offices by city', () => {
+    apiMock.getLoginOffices.mockReturnValue(
+      of({
+        data: offices,
+        errors: [],
+      }),
+    );
+
+    store.loadLoginOffices();
+
+    store.setSearchTerm('helsinki');
+
+    expect(store.filteredLoginOffices()[0].city).toBe('Helsinki');
+  });
+
+  it('should return all login offices when search is empty', () => {
+    apiMock.getLoginOffices.mockReturnValue(
+      of({
+        data: offices,
+        errors: [],
+      }),
+    );
+
+    store.loadLoginOffices();
+
+    store.setSearchTerm('');
+
+    expect(store.filteredLoginOffices()).toEqual(offices);
+  });
+
+  it('should return empty collection when no login office matches', () => {
+    apiMock.getLoginOffices.mockReturnValue(
+      of({
+        data: offices,
+        errors: [],
+      }),
+    );
+
+    store.loadLoginOffices();
+
+    store.setSearchTerm('xyz');
+
+    expect(store.filteredLoginOffices()).toEqual([]);
+  });
 });

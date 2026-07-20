@@ -4,6 +4,14 @@
   </app-page-header>
   <div class="page-actions">
 
+    <mat-form-field class="search-bar" appearance="outline">
+      <mat-label>Search login offices</mat-label>
+
+      <input matInput placeholder="Search by name, code or city" (input)="onSearch($event)" />
+
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+
     <button mat-flat-button color="primary" (click)="openCreateDialog()">
 
       <mat-icon>add</mat-icon>
@@ -28,11 +36,16 @@
     <app-empty-state message="No login offices are available. Create one to get started.">
     </app-empty-state>
 
+    }@else if (store.filteredLoginOffices().length === 0) {
+
+    <app-empty-state message="No login offices match your search.">
+    </app-empty-state>
+
     } @else {
 
     <div class="office-grid">
 
-      @for (office of store.loginOffices(); track office.id) {
+      @for (office of store.filteredLoginOffices(); track office.id) {
 
         <app-login-office-card [office]="office" (edit)="openEditDialog($event)" (delete)="deleteLoginOffice($event)">
         </app-login-office-card>

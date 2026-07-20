@@ -222,17 +222,58 @@ Continue with Sprint 5 story 27 implementation with new branching and aligned wi
 
 after complete each story help me with bellow 
 -commit message  -PR title, discriptions, comment
--personal documentation details 
--PPT, KT, demo scripts, code review, outcomes...
--explaining which new technology/tool/feature/logic/concepts used for implementation and why and how it will help me with to track my understanding of implemented things. sprint and story wise.
+-PPT, KT, scripts meterial for demo, code review, outcomes...
+-details implementaed for my manual documentation (explaining which new technology/tool/feature/logic/concepts used for implementation and why and how it will help me with to track my understanding of implemented things. sprint and story wise.)
 
 Story-27
 
+ng generate component features/dashoard/components/dashboard-card --standalone --skip-tests
+ng generate component shared/components/quick-action-card --standalone 
+ng generate component shared/components/recent-activity --standalone 
 
+Story-28
+git checkout -b feature/sprint5-story28-dashboard-REST-API-integration
 
+Story 29
+ng generate component features/administration/pages/administration-home --standalone 
+ng generate component features/administration/components/admin-card --standalone 
 
-
-
+Story-30
+features
+└── administration
+    ├── components
+    │
+    │   login-office-dialog
+    │
+    ├── data-access
+    │
+    │   models
+    │
+    │      login-office.model.ts
+    │      create-login-office-request.model.ts
+    │      update-login-office-request.model.ts
+    │
+    │   services
+    │
+    │      login-office-api.service.ts
+    │
+    ├── pages
+    │
+    │   login-office-list
+    │
+    │      login-office-list.ts
+    │      login-office-list.html
+    │      login-office-list.scss
+    │      login-office-list.spec.ts
+    │
+    ├── state
+    │
+    │   login-office.store.ts
+    │   login-office.store.spec.ts
+	
+ng generate component features/administration/pages/login-office-list --standalone 
+ng generate component features/administration/components/login-office-card --standalone 
+ng generate component features/administration/components/login-office-dialog --standalone 
 
 
 
