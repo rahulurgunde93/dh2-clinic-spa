@@ -17,6 +17,7 @@ export class LoginOfficeStore {
   readonly error = signal<Error | null>(null);
 
   readonly hasLoginOffices = computed(() => this.loginOffices().length > 0);
+  readonly searchTerm = signal('');
 
   loadLoginOffices(): void {
     this.loading.set(true);
@@ -87,5 +88,22 @@ export class LoginOfficeStore {
         this.loading.set(false);
       },
     });
+  }
+  readonly filteredLoginOffices = computed(() => {
+    const search = this.searchTerm().trim().toLowerCase();
+
+    if (!search) {
+      return this.loginOffices();
+    }
+
+    return this.loginOffices().filter(
+      (office) =>
+        office.name.toLowerCase().includes(search) ||
+        office.code.toLowerCase().includes(search) ||
+        office.city.toLowerCase().includes(search),
+    );
+  });
+  setSearchTerm(search: string): void {
+    this.searchTerm.set(search);
   }
 }

@@ -1,11 +1,22 @@
 .office-grid {
-
   display: grid;
-
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-
   gap: 24px;
-
   align-items: stretch;
 
+}
+.search-bar {
+  margin: 1rem 0;
+
+  input {
+    width: 320px;
+    border: 1px solid #d6d6d6;
+    border-radius: 6px;
+    font-size: 14px;
+  }
+
+  input:focus {
+    outline: none;
+    border-color: #1976d2;
+  }
 }

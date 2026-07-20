@@ -30,6 +30,16 @@ describe('LoginOfficeList', () => {
     createLoginOffice: vi.fn(),
     updateLoginOffice: vi.fn(),
     deleteLoginOffice: vi.fn(),
+    setSearchTerm: vi.fn(),
+    filteredLoginOffices: vi.fn(() => [
+      {
+        id: 1,
+        name: 'Helsinki Central',
+        code: 'HEL001',
+        city: 'Helsinki',
+        status: 'Active',
+      },
+    ]),
   };
 
   const dialogMock = {
@@ -163,4 +173,17 @@ describe('LoginOfficeList', () => {
 
     expect(storeMock.deleteLoginOffice).not.toHaveBeenCalled();
   });
+
+  it('should update search term', () => {
+    const spy = vi.spyOn(storeMock, 'setSearchTerm');
+
+    component.onSearch({
+      target: {
+        value: 'hel',
+      },
+    } as unknown as Event);
+
+    expect(spy).toHaveBeenCalledWith('hel');
+  });
+
 });
