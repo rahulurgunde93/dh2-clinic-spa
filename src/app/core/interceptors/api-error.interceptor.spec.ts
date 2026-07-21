@@ -69,4 +69,74 @@ describe('apiErrorInterceptor', () => {
 
     request.error(new ProgressEvent('Network error'));
   });
+
+  it('should use backend message when errors array is missing', () => {
+    httpClient.get('/api/test').subscribe({
+      next: () => {
+        throw new Error('Expected request to fail');
+      },
+      error: (error: ApplicationError) => {
+        expect(error.status).toBe(400);
+        expect(error.message).toBe('Invalid request.');
+      },
+    });
+
+    const request = httpTestingController.expectOne('/api/test');
+
+    request.flush(
+      {
+        message: 'Invalid request.',
+      },
+      {
+        status: 400,
+        statusText: 'Bad Request',
+      },
+    );
+  });
+
+  it('should use default message when backend response is empty', () => {
+    httpClient.get('/api/test').subscribe({
+      next: () => {
+        throw new Error('Expected request to fail');
+      },
+      error: (error: ApplicationError) => {
+        expect(error.status).toBe(500);
+        expect(error.message).toBe('An unexpected error occurred.');
+      },
+    });
+
+    const request = httpTestingController.expectOne('/api/test');
+
+    request.flush(
+      {},
+      {
+        status: 500,
+        statusText: 'Server Error',
+      },
+    );
+  });
+
+  it('should preserve unauthorized status', () => {
+    httpClient.get('/api/patients').subscribe({
+      next: () => {
+        throw new Error('Expected request to fail');
+      },
+      error: (error: ApplicationError) => {
+        expect(error.status).toBe(401);
+        expect(error.message).toBe('Unauthorized');
+      },
+    });
+
+    const request = httpTestingController.expectOne('/api/patients');
+
+    request.flush(
+      {
+        message: 'Unauthorized',
+      },
+      {
+        status: 401,
+        statusText: 'Unauthorized',
+      },
+    );
+  });
 });
