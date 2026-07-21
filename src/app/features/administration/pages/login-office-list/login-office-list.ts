@@ -11,8 +11,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
 import { LoginOfficeDialog } from '../../components/login-office-dialog/login-office-dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
+import { SearchInputComponent } from '../../../../shared/components/search-input/search-input';
 
 @Component({
   selector: 'app-login-office-list',
@@ -27,9 +26,7 @@ import { MatInputModule } from '@angular/material/input';
     MatButtonModule,
     MatIconModule,
 
-    // Add these
-    MatFormFieldModule,
-    MatInputModule,
+    SearchInputComponent,
   ],
   templateUrl: './login-office-list.html',
   styleUrls: ['./login-office-list.scss'],
@@ -81,10 +78,6 @@ export class LoginOfficeList implements OnInit {
       return;
     }
     this.store.deleteLoginOffice(office.id);
-  }
-  onSearch(event: Event): void {
-    const value = (event.target as HTMLInputElement).value;
-    this.store.setSearchTerm(value);
   }
 }
 
