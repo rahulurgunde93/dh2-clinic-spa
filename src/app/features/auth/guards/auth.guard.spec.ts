@@ -14,20 +14,22 @@ describe('authGuard', () => {
     createUrlTree: vi.fn(() => '/login'),
   };
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [
-        {
-          provide: AuthService,
-          useValue: authServiceMock,
-        },
-        {
-          provide: Router,
-          useValue: routerMock,
-        },
-      ],
-    });
+beforeEach(() => {
+  vi.clearAllMocks();
+
+  TestBed.configureTestingModule({
+    providers: [
+      {
+        provide: AuthService,
+        useValue: authServiceMock,
+      },
+      {
+        provide: Router,
+        useValue: routerMock,
+      },
+    ],
   });
+});
 
   it('should allow authenticated users', () => {
     authServiceMock.isAuthenticated.mockReturnValue(true);
@@ -40,15 +42,34 @@ describe('authGuard', () => {
     expect(result).toBe(true);
   });
 
-  it('should redirect unauthenticated users', () => {
-    authServiceMock.isAuthenticated.mockReturnValue(false);
+it('should redirect unauthenticated users with returnUrl', () => {
+  authServiceMock.isAuthenticated.mockReturnValue(false);
+
+  const route = {} as ActivatedRouteSnapshot;
+
+  const state = {
+    url: '/patients/1',
+  } as RouterStateSnapshot;
+
+  const result = TestBed.runInInjectionContext(() => authGuard(route, state));
+
+  expect(routerMock.createUrlTree).toHaveBeenCalledWith(['/login'], {
+    queryParams: {
+      returnUrl: '/patients/1',
+    },
+  });
+
+  expect(result).toBe('/login');
+});
+
+  it('should check authentication only once', () => {
+    authServiceMock.isAuthenticated.mockReturnValue(true);
 
     const route = {} as ActivatedRouteSnapshot;
     const state = {} as RouterStateSnapshot;
 
-    const result = TestBed.runInInjectionContext(() => authGuard(route, state));
+    TestBed.runInInjectionContext(() => authGuard(route, state));
 
-    expect(routerMock.createUrlTree).toHaveBeenCalledWith(['/login']);
-    expect(result).toBe('/login');
+    expect(authServiceMock.isAuthenticated).toHaveBeenCalledTimes(1);
   });
 });
