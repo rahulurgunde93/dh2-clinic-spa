@@ -6,7 +6,7 @@ import { AuthService } from '../../features/auth/state/auth.service';
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
 
-  const token = authService.token();
+  const token = authService.token()?.trim();
 
   if (!token) {
     return next(req);

@@ -1,6 +1,6 @@
 import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { catchError, throwError } from 'rxjs';
-import { HTTP_STATUS } from '../constants/http-status.constants';
+
 import { ApplicationError } from '../models/application-error.model';
 
 export const apiErrorInterceptor: HttpInterceptorFn = (request, next) => {
@@ -21,10 +21,13 @@ function getErrorMessage(error: HttpErrorResponse): string {
     return 'Unable to connect to the server.';
   }
 
-  return (
-    error.error?.errors?.[0]?.message ??
-    error.error?.message ??
-    error.message ??
-    'An unexpected error occurred.'
-  );
+  if (error.error?.errors?.length) {
+    return error.error.errors[0].message;
+  }
+
+  if (error.error?.message) {
+    return error.error.message;
+  }
+
+  return 'An unexpected error occurred.';
 }
