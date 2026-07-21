@@ -10,6 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 
 import { LoginOffice } from '../../data-access/models/login-office.model';
+import { A11yModule } from '@angular/cdk/a11y';
 
 @Component({
   selector: 'app-login-office-dialog',
@@ -22,6 +23,7 @@ import { LoginOffice } from '../../data-access/models/login-office.model';
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
+    A11yModule,
   ],
   templateUrl: './login-office-dialog.html',
   styleUrls: ['./login-office-dialog.scss'],
@@ -49,10 +51,18 @@ export class LoginOfficeDialog implements OnInit {
 
   save(): void {
     if (this.form.invalid) {
+      this.form.markAllAsTouched();
       return;
     }
 
-    this.dialogRef.close(this.form.getRawValue());
+    const value = this.form.getRawValue();
+
+    this.dialogRef.close({
+      ...value,
+      name: value.name.trim(),
+      code: value.code.trim(),
+      city: value.city.trim(),
+    });
   }
 
   cancel(): void {
