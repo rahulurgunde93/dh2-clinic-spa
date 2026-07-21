@@ -174,16 +174,4 @@ describe('LoginOfficeList', () => {
     expect(storeMock.deleteLoginOffice).not.toHaveBeenCalled();
   });
 
-  it('should update search term', () => {
-    const spy = vi.spyOn(storeMock, 'setSearchTerm');
-
-    component.onSearch({
-      target: {
-        value: 'hel',
-      },
-    } as unknown as Event);
-
-    expect(spy).toHaveBeenCalledWith('hel');
-  });
-
 });

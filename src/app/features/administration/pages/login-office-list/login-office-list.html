@@ -2,25 +2,18 @@
 
   <app-page-header title="Login Offices" subtitle="Manage clinic login offices">
   </app-page-header>
+
   <div class="page-actions">
 
-    <mat-form-field class="search-bar" appearance="outline">
-      <mat-label>Search login offices</mat-label>
-
-      <input matInput placeholder="Search by name, code or city" (input)="onSearch($event)" />
-
-      <mat-icon matSuffix>search</mat-icon>
-    </mat-form-field>
+    <app-search-input [placeholder]="'Search login offices...'" (searchChange)="store.setSearchTerm($event)">
+    </app-search-input>
 
     <button mat-flat-button color="primary" (click)="openCreateDialog()">
-
       <mat-icon>add</mat-icon>
-
       New Login Office
-
     </button>
-
   </div>
+
   <div class="page-content">
 
     @if (store.loading()) {
